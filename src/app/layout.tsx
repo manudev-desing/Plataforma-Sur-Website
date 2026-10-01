@@ -11,6 +11,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://manudev-desing.github.io/Plataforma-Sur-Website"),
   title: "Plataforma Sur - Del sur al mundo: calidad que cruza fronteras",
   description:
     "Conectamos al mundo con la riqueza de Latinoamérica a través de una plataforma confiable, sólida y en constante expansión. Relaciones que permanecen.",

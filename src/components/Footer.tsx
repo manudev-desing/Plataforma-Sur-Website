@@ -83,19 +83,19 @@ const Footer = () => {
             <h3 className="font-outfit-bold text-lg text-white">Contacto</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <MapPin size={18} className="text-emerald" />
+                <MapPin size={18} className="text-emerald flex-shrink-0" />
                 <span className="text-gray-300 font-outfit-regular text-sm">
                   Buenos Aires, Argentina
                 </span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone size={18} className="text-emerald" />
+                <Phone size={18} className="text-emerald flex-shrink-0" />
                 <span className="text-gray-300 font-outfit-regular text-sm">
                   +54 11 1234-5678
                 </span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail size={18} className="text-emerald" />
+                <Mail size={18} className="text-emerald flex-shrink-0" />
                 <span className="text-gray-300 font-outfit-regular text-sm">
                   info@plataformasur.com
                 </span>
@@ -107,15 +107,18 @@ const Footer = () => {
               <h4 className="font-outfit-semibold text-white">Síguenos</h4>
               <div className="flex space-x-4">
                 {[
-                  { icon: Facebook, href: "#" },
-                  { icon: Twitter, href: "#" },
-                  { icon: Linkedin, href: "#" },
-                  { icon: Instagram, href: "#" },
-                ].map(({ icon: Icon, href }, index) => (
+                  { icon: Facebook, href: "#", label: "Facebook" },
+                  { icon: Twitter, href: "#", label: "Twitter" },
+                  { icon: Linkedin, href: "#", label: "LinkedIn" },
+                  { icon: Instagram, href: "#", label: "Instagram" },
+                ].map(({ icon: Icon, href, label }) => (
                   <a
-                    key={index}
+                    key={label}
                     href={href}
-                    className="text-gray-300 hover:text-emerald transition-colors"
+                    aria-label={label}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    className="text-gray-300 hover:text-emerald transition-colors duration-200"
                   >
                     <Icon size={20} />
                   </a>
@@ -129,7 +132,7 @@ const Footer = () => {
         <div className="border-t border-gray-600 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-300 text-sm font-outfit-regular">
-              © 2024 Plataforma Sur. Todos los derechos reservados.
+              © {new Date().getFullYear()} Plataforma Sur. Todos los derechos reservados.
             </p>
             <div className="flex space-x-6 text-sm">
               <Link

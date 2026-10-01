@@ -28,13 +28,13 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`fixed w-full z-50 transition-all duration-500 ease-out ${
         isScrolled
           ? "bg-white shadow-lg"
-          : "bg-white/95 backdrop-blur-sm shadow-sm"
+          : "bg-white/95 backdrop-blur-sm border-b border-gray-100"
       }`}
     >
-      <nav className="container-custom">
+      <nav className="container-custom px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
@@ -75,6 +75,8 @@ const Header = () => {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden p-2 rounded-md text-midnight-green hover:bg-gray-100 transition-colors"
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

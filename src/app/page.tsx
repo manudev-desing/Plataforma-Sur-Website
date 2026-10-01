@@ -34,14 +34,14 @@ export default function Home() {
             className="space-y-8"
           >
             {/* Main Headline */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-outfit-bold leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-outfit-bold leading-tight tracking-tight">
               Del sur al mundo:
               <br />
               <span className="text-emerald">calidad que cruza fronteras</span>
             </h1>
 
             {/* Subtitle - Narrativa clave del brandbook */}
-            <p className="text-xl md:text-2xl font-outfit-regular max-w-3xl mx-auto text-gray-100">
+            <p className="text-xl md:text-2xl font-outfit-regular max-w-3xl mx-auto text-white/85 leading-relaxed">
               Relaciones que permanecen. Conectamos al mundo con la riqueza de
               Latinoamérica a través de una plataforma confiable, sólida y en
               constante expansión.
@@ -325,7 +325,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding bg-midnight-green text-white">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-midnight-green text-white">
         <div className="container-custom text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -335,11 +335,11 @@ export default function Home() {
           >
             <Heart className="text-emerald mx-auto mb-6" size={48} />
             <h2 className="text-3xl md:text-4xl font-outfit-bold mb-6">
-              "Conectamos al mundo con lo mejor de Latinoamérica"
+              «Conectamos al mundo con lo mejor de Latinoamérica»
             </h2>
-            <p className="text-lg font-outfit-regular text-gray-200 mb-8 max-w-2xl mx-auto">
-              Esta es nuestra esencia. ¿Listo para ser parte de esta conexión
-              global?
+            <p className="text-lg font-outfit-regular text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+              Esta es nuestra esencia. Sé parte de esta conexión
+              global.
             </p>
             <Link
               href="/contacto"
