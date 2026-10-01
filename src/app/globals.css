@@ -2,85 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --midnight-green: #04444D;
-  --emerald: #04BA70;
-  --emerald-light: #05d47f;
-  --emerald-dark: #039e5e;
-  --dark: #0f172a;
-  --light: #f8fafc;
-}
-
 @layer base {
-  *, ::before, ::after {
-    box-sizing: border-box;
-  }
-  
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
   }
-  
+
   body {
     font-family: var(--font-outfit), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    background-color: var(--light);
-    color: var(--dark);
-    overflow-x: hidden;
   }
 
   ::selection {
-    background-color: var(--emerald);
+    background-color: #04BA70;
     color: white;
   }
 }
 
-@layer utilities {
-  .text-midnight-green { color: var(--midnight-green); }
-  .text-emerald { color: var(--emerald); }
-  .bg-midnight-green { background-color: var(--midnight-green); }
-  .bg-emerald { background-color: var(--emerald); }
-  .border-midnight-green { border-color: var(--midnight-green); }
-  .border-emerald { border-color: var(--emerald); }
-  
-  .font-outfit-light { font-weight: 300; }
-  .font-outfit-regular { font-weight: 400; }
-  .font-outfit-medium { font-weight: 500; }
-  .font-outfit-semibold { font-weight: 600; }
-  .font-outfit-bold { font-weight: 700; }
-  .font-outfit-extrabold { font-weight: 800; }
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 md:px-12;
+  }
 
   .section-padding {
     @apply py-24 md:py-32;
   }
-  
-  .container-custom {
-    @apply w-full max-w-7xl mx-auto px-6 md:px-12;
-  }
-}
 
-@layer components {
+  .font-outfit-regular { font-weight: 400; }
+  .font-outfit-medium { font-weight: 500; }
+  .font-outfit-semibold { font-weight: 600; }
+  .font-outfit-bold { font-weight: 700; }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center bg-emerald text-white font-outfit-semibold px-8 py-4 transition-colors duration-200 hover:bg-[#039e5e];
+    @apply inline-flex items-center bg-emerald text-white font-outfit-semibold
+           px-7 py-3.5 transition-colors duration-200 hover:bg-emerald/85
+           focus-visible:ring-2 focus-visible:ring-emerald/40 focus-visible:outline-none;
   }
-  
-  .btn-secondary {
-    @apply inline-flex items-center justify-center border border-midnight-green text-midnight-green bg-transparent font-outfit-semibold px-8 py-4 transition-colors duration-200 hover:bg-midnight-green hover:text-white;
-  }
-}
 
-/* Scrollbar Styles */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--midnight-green);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--emerald);
+  .btn-secondary {
+    @apply inline-flex items-center border border-midnight-green text-midnight-green
+           font-outfit-semibold px-7 py-3.5 transition-colors duration-200
+           hover:bg-midnight-green hover:text-white
+           focus-visible:ring-2 focus-visible:ring-midnight-green/40 focus-visible:outline-none;
+  }
 }

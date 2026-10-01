@@ -1,123 +1,115 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
 
-const navItems = [
-  { name: 'Inicio', href: '/' },
-  { name: 'Nosotros', href: '/historia' },
-  { name: 'Servicios', href: '/servicios' },
-  { name: 'Productos', href: '/productos' },
-  { name: 'Contacto', href: '/contacto' },
-]
+const navLinks = [
+  { name: "Nosotros", href: "/historia" },
+  { name: "Servicios", href: "/servicios" },
+  { name: "Contacto", href: "/contacto" },
+];
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 80)
-    }
-    // Set initial state
-    handleScroll()
-    
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    return () => { document.body.style.overflow = 'unset' }
-  }, [mobileMenuOpen])
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
-          isScrolled ? 'bg-white shadow-sm' : 'bg-transparent'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? "bg-white shadow-sm" : "bg-transparent"
         }`}
       >
-        <div className="container-custom flex items-center justify-between h-20 px-6">
+        <div className="container-custom flex items-center justify-between h-20">
           <Link
             href="/"
-            className={`font-outfit-bold tracking-wide text-sm transition-colors duration-500 ${
-              isScrolled ? 'text-midnight-green' : 'text-white'
+            className={`font-outfit-bold text-sm tracking-wide transition-colors duration-500 ${
+              scrolled ? "text-midnight-green" : "text-white"
             }`}
           >
-            PLATAFORMA SUR
+            Plataforma Sur
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-10">
-            {navItems.map((item, index) => {
-              const isLast = index === navItems.length - 1
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`font-outfit-regular text-sm transition-colors duration-500 ${
-                    isLast
-                      ? `px-5 py-2 border rounded-full ${
-                          isScrolled
-                            ? 'border-midnight-green text-midnight-green hover:bg-midnight-green hover:text-white'
-                            : 'border-white text-white hover:bg-white hover:text-midnight-green'
-                        }`
-                      : `${isScrolled ? 'text-midnight-green hover:text-emerald' : 'text-white hover:text-white/80'}`
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              )
-            })}
+          <nav className="hidden md:flex items-center gap-10">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`text-sm font-outfit-regular transition-colors duration-300 ${
+                  scrolled
+                    ? "text-midnight-green/70 hover:text-midnight-green"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
           </nav>
 
-          {/* Mobile Menu Button */}
           <button
+            onClick={() => setMenuOpen(true)}
             className={`md:hidden transition-colors duration-500 ${
-              isScrolled ? 'text-midnight-green' : 'text-white'
+              scrolled ? "text-midnight-green" : "text-white"
             }`}
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open menu"
+            aria-label="Abrir menú"
           >
             <Menu className="w-6 h-6" />
           </button>
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-[60] bg-midnight-green transition-transform duration-500 flex flex-col ${
-          mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        className={`fixed inset-0 z-[60] bg-midnight-green flex flex-col transition-opacity duration-300 ${
+          menuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="flex justify-end p-6">
           <button
-            onClick={() => setMobileMenuOpen(false)}
-            className="text-white p-2"
-            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+            className="text-white"
+            aria-label="Cerrar menú"
           >
-            <X className="w-8 h-8" />
+            <X className="w-7 h-7" />
           </button>
         </div>
-        <nav className="flex-1 flex flex-col items-center justify-center space-y-8">
-          {navItems.map((item) => (
+        <nav className="flex-1 flex flex-col items-center justify-center gap-8">
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="text-white text-2xl font-outfit-regular hover:text-emerald transition-colors"
+          >
+            Inicio
+          </Link>
+          {navLinks.map((link) => (
             <Link
-              key={item.name}
-              href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
+              key={link.name}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
               className="text-white text-2xl font-outfit-regular hover:text-emerald transition-colors"
             >
-              {item.name}
+              {link.name}
             </Link>
           ))}
         </nav>
       </div>
     </>
-  )
+  );
 }
