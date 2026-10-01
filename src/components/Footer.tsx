@@ -1,158 +1,48 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import {
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
-  Mail,
-  Phone,
-  MapPin,
-} from "lucide-react";
+import Link from 'next/link'
 
-const Footer = () => {
+const navItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Nosotros', href: '/historia' },
+  { name: 'Servicios', href: '/servicios' },
+  { name: 'Productos', href: '/productos' },
+  { name: 'Contacto', href: '/contacto' },
+]
+
+export default function Footer() {
   return (
-    <footer className="bg-midnight-green text-white">
-      <div className="container-custom section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Logo and Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="relative w-12 h-12 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center">
-                <span className="text-xs font-outfit-bold text-gray-500">
-                  LOGO
-                </span>
-              </div>
-              <span className="font-outfit-bold text-xl text-white">
-                Plataforma Sur
-              </span>
-            </div>
-            <p className="text-gray-300 font-outfit-regular">
-              Del sur al mundo: calidad que cruza fronteras, relaciones que
-              permanecen.
-            </p>
-            <p className="text-gray-300 text-sm font-outfit-regular">
-              Conectando al mundo con la riqueza de Latinoamérica.
+    <footer className="bg-midnight-green py-16 md:py-20">
+      <div className="container-custom px-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 lg:gap-0 mb-16">
+          <div>
+            <h2 className="text-white font-outfit-bold text-2xl mb-2">Plataforma Sur</h2>
+            <p className="text-gray-400 text-sm font-outfit-regular">
+              Conectando América Latina con los mercados globales.
             </p>
           </div>
-
-          {/* Navigation Links */}
-          <div className="space-y-4">
-            <h3 className="font-outfit-bold text-lg text-white">Navegación</h3>
-            <div className="space-y-2">
-              {[
-                { name: "Inicio", href: "/" },
-                { name: "Historia", href: "/historia" },
-                { name: "Servicios", href: "/servicios" },
-                { name: "Productos", href: "/productos" },
-                { name: "Valores", href: "/valores" },
-                { name: "Contacto", href: "/contacto" },
-              ].map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="block text-gray-300 hover:text-emerald transition-colors font-outfit-regular"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Services */}
-          <div className="space-y-4">
-            <h3 className="font-outfit-bold text-lg text-white">Servicios</h3>
-            <div className="space-y-2">
-              {[
-                "Exportación",
-                "Logística Internacional",
-                "Cumplimiento Normativo",
-                "Trazabilidad",
-                "Consultoría",
-              ].map((service) => (
-                <p key={service} className="text-gray-300 font-outfit-regular">
-                  {service}
-                </p>
-              ))}
-            </div>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="font-outfit-bold text-lg text-white">Contacto</h3>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <MapPin size={18} className="text-emerald flex-shrink-0" />
-                <span className="text-gray-300 font-outfit-regular text-sm">
-                  Buenos Aires, Argentina
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone size={18} className="text-emerald flex-shrink-0" />
-                <span className="text-gray-300 font-outfit-regular text-sm">
-                  +54 11 1234-5678
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail size={18} className="text-emerald flex-shrink-0" />
-                <span className="text-gray-300 font-outfit-regular text-sm">
-                  info@plataformasur.com
-                </span>
-              </div>
-            </div>
-
-            {/* Social Media */}
-            <div className="space-y-2">
-              <h4 className="font-outfit-semibold text-white">Síguenos</h4>
-              <div className="flex space-x-4">
-                {[
-                  { icon: Facebook, href: "#", label: "Facebook" },
-                  { icon: Twitter, href: "#", label: "Twitter" },
-                  { icon: Linkedin, href: "#", label: "LinkedIn" },
-                  { icon: Instagram, href: "#", label: "Instagram" },
-                ].map(({ icon: Icon, href, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    className="text-gray-300 hover:text-emerald transition-colors duration-200"
-                  >
-                    <Icon size={20} />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
+          <nav className="flex flex-wrap gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-gray-400 hover:text-white text-sm font-outfit-regular transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
         </div>
-
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-600 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-300 text-sm font-outfit-regular">
-              © {new Date().getFullYear()} Plataforma Sur. Todos los derechos reservados.
-            </p>
-            <div className="flex space-x-6 text-sm">
-              <Link
-                href="/privacidad"
-                className="text-gray-300 hover:text-emerald transition-colors"
-              >
-                Política de Privacidad
-              </Link>
-              <Link
-                href="/terminos"
-                className="text-gray-300 hover:text-emerald transition-colors"
-              >
-                Términos de Uso
-              </Link>
-            </div>
-          </div>
+        
+        <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-xs font-outfit-regular">
+            © {new Date().getFullYear()} Plataforma Sur
+          </p>
+          <p className="text-gray-500 text-xs font-outfit-regular">
+            Buenos Aires, Argentina
+          </p>
         </div>
       </div>
     </footer>
-  );
-};
-
-export default Footer;
+  )
+}
