@@ -4,6 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { useLang } from "@/context/LanguageContext";
 import { companyConfig, createWhatsAppUrl, createEmailUrl } from "@/data/company";
+import { getAssetPath } from "@/utils/assets";
+import { BrandLogo } from "@/components/BrandLogo";
 import { MapPin, MessageCircle, Mail } from "lucide-react";
 
 export const Footer: React.FC = () => {
@@ -60,23 +62,7 @@ export const Footer: React.FC = () => {
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand & Purpose */}
           <div>
-            <div className="flex items-center gap-3">
-              <Image
-                src="/images/logos/isotipo.png"
-                alt="Plataforma Sur"
-                width={120}
-                height={170}
-                className="h-10 w-auto"
-              />
-              <span className="flex flex-col leading-[1.05]">
-                <span className="font-outfit text-lg font-extrabold tracking-tight text-accent">
-                  Plataforma Sur
-                </span>
-                <span className="font-outfit text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">
-                  Global Business
-                </span>
-              </span>
-            </div>
+            <BrandLogo size="md" theme="light" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               {t("footer_about")}
             </p>

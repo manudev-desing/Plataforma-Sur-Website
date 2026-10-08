@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Product } from "@/data/products";
 import { useLang } from "@/context/LanguageContext";
 import { companyConfig, createWhatsAppUrl, createEmailUrl } from "@/data/company";
+import { getAssetPath } from "@/utils/assets";
 import CountryFlag from "./CountryFlag";
 import {
   X,
@@ -66,7 +67,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {/* Header Brand */}
           <div className="flex flex-col items-center gap-2 pb-4 text-center">
             <Image
-              src="/images/logos/isotipo.png"
+              src={getAssetPath("/images/logos/isotipo.png")}
               alt="Plataforma Sur"
               width={100}
               height={140}
@@ -99,7 +100,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div className="my-6 flex items-center justify-center rounded-xl bg-muted/30 p-4">
             <div className="relative h-48 w-48 sm:h-56 sm:w-56">
               <Image
-                src={product.image}
+                src={getAssetPath(product.image)}
                 alt={`${product.name} — ${product.country}`}
                 fill
                 className="object-contain"

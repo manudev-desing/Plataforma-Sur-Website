@@ -1,12 +1,18 @@
+const basePath =
+  process.env.NEXT_PUBLIC_BASE_PATH ||
+  (process.env.GITHUB_ACTIONS === "true" ? "/Plataforma-Sur-Website" : "");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  basePath: '/Plataforma-Sur-Website',
-  assetPrefix: '/Plataforma-Sur-Website/',
+  output: "export",
+  ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
   trailingSlash: true,
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
-}
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

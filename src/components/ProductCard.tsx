@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Product } from "@/data/products";
 import { useLang } from "@/context/LanguageContext";
+import { getAssetPath } from "@/utils/assets";
 import CountryFlag from "./CountryFlag";
 import { FileText } from "lucide-react";
 
@@ -39,7 +40,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, index, onOpen
         aria-label={`${t("card_view_sheet")} — ${product.name}`}
       >
         <Image
-          src={product.image}
+          src={getAssetPath(product.image)}
           alt={`${product.name} — ${product.country}`}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

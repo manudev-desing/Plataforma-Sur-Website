@@ -40,6 +40,9 @@ export const WhyUs: React.FC = () => {
           <h2 className="font-outfit text-3xl font-bold text-foreground md:text-4xl">
             {t("whyus_title")}
           </h2>
+          <p className="mt-4 text-base text-muted-foreground md:text-lg">
+            {t("brand_narrative")}
+          </p>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

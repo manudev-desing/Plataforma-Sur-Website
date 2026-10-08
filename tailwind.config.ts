@@ -42,7 +42,7 @@ const config: Config = {
         "outfit-medium": "500",
         "outfit-semibold": "600",
         "outfit-bold": "700",
-        "outfit-black": "800",
+        "outfit-black": "900",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

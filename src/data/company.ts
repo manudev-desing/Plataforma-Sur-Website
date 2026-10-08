@@ -4,6 +4,7 @@ export interface CompanyConfig {
   email: string;
   companyName: string;
   tagline: string;
+  website: string;
 }
 
 export const companyConfig: CompanyConfig = {
@@ -12,6 +13,7 @@ export const companyConfig: CompanyConfig = {
   email: "comercial@productosdelsur.com",
   companyName: "Plataforma Sur",
   tagline: "Global Business",
+  website: "https://www.plataformasur.net",
 };
 
 export const createWhatsAppUrl = (message: string): string =>
