@@ -1,0 +1,121 @@
+direction: right
+
+title: "Plataforma Sur - Architecture & Scraped System Design"
+
+classes: {
+  frontend: {
+    style: {
+      fill: "#04444D"
+      stroke: "#04BA70"
+      font-color: "#ffffff"
+      stroke-width: 2
+      border-radius: 8
+    }
+  }
+  component: {
+    style: {
+      fill: "#085762"
+      stroke: "#04BA70"
+      font-color: "#ffffff"
+      border-radius: 6
+    }
+  }
+  data: {
+    style: {
+      fill: "#04BA70"
+      stroke: "#04444D"
+      font-color: "#04444D"
+      border-radius: 6
+    }
+  }
+  external: {
+    style: {
+      fill: "#f8fafc"
+      stroke: "#64748b"
+      font-color: "#0f172a"
+      border-radius: 8
+    }
+  }
+}
+
+client: "B2B Buyer / Client" {
+  shape: person
+}
+
+webapp: "Plataforma Sur WebApp (Next.js 14 + Tailwind)" {
+  class: frontend
+
+  header: "Header Component" {
+    class: component
+    desc: "Bilingual Switcher (ES/EN) + Nav Links + Contact CTA"
+  }
+
+  hero: "Hero Section" {
+    class: component
+    desc: "Carousel (9 Hero Images) + Value Props + Direct Actions"
+  }
+
+  origins: "Origins Section" {
+    class: component
+    desc: "Argentina, Bolivia & Peru production hubs"
+  }
+
+  catalog: "Catalog & Products" {
+    class: component
+    desc: "Filters by Origin & Category + 17 Product Cards"
+  }
+
+  modal: "Product Detail Sheet" {
+    class: component
+    desc: "Tech Specs, Incoterms, Chemical/Physical Parameters"
+  }
+
+  pdf_gen: "PDF Generator Service" {
+    class: component
+    desc: "Client-side Technical Datasheet export"
+  }
+
+  why_us: "Why Us / Nosotros" {
+    class: component
+    desc: "Traceability, Ports, Certifications, Direct B2B"
+  }
+
+  footer: "Footer & Contact" {
+    class: component
+    desc: "Offices (BA, Santa Cruz, Lima) + Inquiries"
+  }
+}
+
+data_layer: "Static Data & Assets" {
+  products_db: "17 Verified Products" {
+    class: data
+    shape: cylinder
+  }
+  translations: "i18n Dictionaries (ES / EN)" {
+    class: data
+  }
+  assets: "25 High-Res Images & Logos" {
+    class: data
+  }
+}
+
+external_channels: "Direct Channels" {
+  class: external
+  whatsapp: "WhatsApp Business (+591 6893-8712)" {
+    shape: document
+  }
+  email: "Commercial Email (comercial@productosdelsur.com)" {
+    shape: document
+  }
+}
+
+client -> webapp.header: "Visits / Switches Language"
+client -> webapp.catalog: "Filters by Country & Category"
+webapp.catalog -> webapp.modal: "Opens Technical Sheet"
+webapp.modal -> webapp.pdf_gen: "Downloads PDF Datasheet"
+webapp.modal -> external_channels.whatsapp: "Direct Quote Request"
+webapp.footer -> external_channels.email: "Commercial Inquiry"
+
+webapp.catalog -> data_layer.products_db: "Reads specifications"
+webapp.header -> data_layer.translations: "Switches Locale"
+webapp.hero -> data_layer.assets: "Loads Carousel & Grain Imagery"

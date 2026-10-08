@@ -13,6 +13,25 @@ const config: Config = {
         "midnight-green": "#04444D",
         emerald: "#04BA70",
         white: "#FFFFFF",
+        primary: {
+          DEFAULT: "#04444D",
+          foreground: "#FFFFFF",
+        },
+        accent: {
+          DEFAULT: "#04BA70",
+          foreground: "#FFFFFF",
+        },
+        background: "#FFFFFF",
+        foreground: "#04444D",
+        card: {
+          DEFAULT: "#FFFFFF",
+          foreground: "#04444D",
+        },
+        muted: {
+          DEFAULT: "#F0F7F7",
+          foreground: "#4A6B70",
+        },
+        border: "#D3E4E6",
       },
       fontFamily: {
         outfit: ["var(--font-outfit)", "Outfit", "sans-serif"],

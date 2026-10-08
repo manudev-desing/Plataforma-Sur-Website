@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -11,26 +10,21 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://manudev-desing.github.io/Plataforma-Sur-Website"),
-  title: "Plataforma Sur - Del sur al mundo: calidad que cruza fronteras",
+  metadataBase: new URL("http://localhost:3000"),
+  title: "Plataforma de Productos del Sur | Exportación de granos y legumbres",
   description:
-    "Conectamos al mundo con la riqueza de Latinoamérica a través de una plataforma confiable, sólida y en constante expansión. Relaciones que permanecen.",
+    "Exportadores de alubia, frijoles, sésamo, chía, quinua, soya y maíz desde Argentina, Bolivia y Perú. Calidad B2B con certificaciones internacionales.",
   keywords:
-    "exportación, latinoamérica, comercio internacional, granos, madera, cuero, logística, plataforma exportadora, América del Sur",
-  authors: [{ name: "Plataforma Sur" }],
-  openGraph: {
-    title: "Plataforma Sur - Del sur al mundo: calidad que cruza fronteras",
-    description:
-      "Conectamos al mundo con la riqueza de Latinoamérica. Relaciones que permanecen.",
-    url: "https://plataformasur.net",
-    siteName: "Plataforma Sur",
-    locale: "es_AR",
-    type: "website",
+    "exportación, alubia, frijol negro, sésamo, chía, quinua real, maní runner, granos, legumbres, Argentina, Bolivia, Perú, B2B",
+  icons: {
+    icon: "/favicon.png",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Plataforma Sur - Del sur al mundo",
-    description: "Calidad que cruza fronteras, relaciones que permanecen",
+  openGraph: {
+    title: "Plataforma de Productos del Sur | Exportación B2B",
+    description:
+      "Exportación B2B de granos, legumbres y semillas desde Argentina, Bolivia y Perú.",
+    locale: "es_ES",
+    type: "website",
   },
 };
 
@@ -41,10 +35,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={`${outfit.variable} font-outfit antialiased`}>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+      <body className={`${outfit.variable} font-outfit antialiased bg-white text-foreground`}>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

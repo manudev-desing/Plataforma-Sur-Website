@@ -46,4 +46,43 @@
            hover:bg-midnight-green hover:text-white
            focus-visible:ring-2 focus-visible:ring-midnight-green/40 focus-visible:outline-none;
   }
+
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, rgba(4, 68, 77, 0.94), rgba(4, 68, 77, 0.82));
+  }
+
+  .bg-gradient-subtle {
+    background: linear-gradient(180deg, #FFFFFF, #F2F8F8);
+  }
+
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, #04444D, #04BA70);
+  }
+
+  .shadow-card {
+    box-shadow: 0 4px 16px -4px rgba(4, 68, 77, 0.08);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 14px 36px -10px rgba(4, 68, 77, 0.22);
+  }
+
+  .shadow-elegant {
+    box-shadow: 0 22px 56px -14px rgba(4, 68, 77, 0.3);
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-sheet, #printable-sheet * {
+    visibility: visible;
+  }
+  #printable-sheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
