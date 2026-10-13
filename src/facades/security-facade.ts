@@ -68,6 +68,11 @@ export class SecurityFacade {
   public shouldBlockKeyboardShortcut(event: KeyboardEventInput): boolean {
     return this.securityService.isBlockedShortcut(event);
   }
+
+  public computeDigest(input: string): string {
+    return this.securityService.computeDigest(input);
+  }
 }
 
 export const securityFacade = new SecurityFacade();
+

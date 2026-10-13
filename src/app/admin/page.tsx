@@ -517,16 +517,6 @@ export default function AdminCmsPage() {
             >
               Ingresar al Editor CMS
             </button>
-
-            <div className="pt-2 text-center">
-              <button
-                type="button"
-                onClick={() => setPasscodeInput("plataformasur2026")}
-                className="text-xs font-medium text-[#3D6E75] underline hover:text-[#04444D]"
-              >
-                Usar clave por defecto (plataformasur2026)
-              </button>
-            </div>
           </form>
 
           <div className="mt-6 border-t border-[#D3E4E6] pt-4 text-center">

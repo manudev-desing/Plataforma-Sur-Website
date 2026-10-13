@@ -65,6 +65,23 @@ describe("CmsFacade & Supabase-Ready CMS Service (Strict Mocking TDD Suite)", ()
     it("should issue a verifiable signed token on valid admin passcode", () => {
       expect(cmsFacade.verifyAdminToken(validAdminToken)).toBe(true);
     });
+
+    it("should NEVER expose plaintext passwords or default password autofill buttons in frontend UI or facade source", async () => {
+      const fs = await import("fs");
+      const path = await import("path");
+      const adminPageSrc = fs.readFileSync(
+        path.join(process.cwd(), "src/app/admin/page.tsx"),
+        "utf-8"
+      );
+      const cmsFacadeSrc = fs.readFileSync(
+        path.join(process.cwd(), "src/facades/cms-facade.ts"),
+        "utf-8"
+      );
+
+      expect(adminPageSrc).not.toContain("plataformasur2026");
+      expect(adminPageSrc).not.toContain("Usar clave por defecto");
+      expect(cmsFacadeSrc).not.toContain("plataformasur2026");
+    });
   });
 
   describe("2. Bilingual Product & Technical Sheet CRUD (with Mocked Supabase Sync)", () => {

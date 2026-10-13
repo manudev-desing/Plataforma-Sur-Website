@@ -121,7 +121,7 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
           return null;
         }
         return data.documents
-          .map((doc) => {
+          .map((doc): BilingualProductRecord | null => {
             const esRaw = doc.fields?.es_payload?.stringValue;
             const enRaw = doc.fields?.en_payload?.stringValue;
             if (!esRaw) return null;

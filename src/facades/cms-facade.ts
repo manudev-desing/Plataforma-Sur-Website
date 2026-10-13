@@ -14,11 +14,13 @@ interface AdminSessionPayload {
   issuedAt: number;
 }
 
+const DEFAULT_ADMIN_DIGEST = "e76d3b61542a99cb";
+
 export class CmsFacade {
   private readonly cmsService: CmsService;
   private readonly catalogService: CatalogService;
   private readonly secFacade: SecurityFacade;
-  private readonly adminPasscode: string;
+  private readonly expectedPasscodeDigest: string;
 
   constructor(
     cmsService: CmsService = defaultCmsService,
@@ -29,11 +31,18 @@ export class CmsFacade {
     this.cmsService = cmsService;
     this.catalogService = catalogService;
     this.secFacade = secFacade;
-    this.adminPasscode =
-      adminPasscode ??
-      (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_CMS_ADMIN_KEY
-        ? process.env.NEXT_PUBLIC_CMS_ADMIN_KEY
-        : "plataformasur2026");
+    if (adminPasscode) {
+      this.expectedPasscodeDigest = this.secFacade.computeDigest(adminPasscode);
+    } else if (
+      typeof process !== "undefined" &&
+      process.env?.NEXT_PUBLIC_CMS_ADMIN_KEY
+    ) {
+      this.expectedPasscodeDigest = this.secFacade.computeDigest(
+        process.env.NEXT_PUBLIC_CMS_ADMIN_KEY
+      );
+    } else {
+      this.expectedPasscodeDigest = DEFAULT_ADMIN_DIGEST;
+    }
   }
 
   public authenticateAdmin(passcode: string): {
@@ -42,7 +51,8 @@ export class CmsFacade {
     error?: string;
   } {
     const clean = (passcode ?? "").trim();
-    if (!clean || (clean !== this.adminPasscode && clean !== "ps-admin-2026")) {
+    const candidateDigest = this.secFacade.computeDigest(clean);
+    if (!clean || candidateDigest !== this.expectedPasscodeDigest) {
       return {
         authenticated: false,
         error: "Clave de administrador inválida.",
