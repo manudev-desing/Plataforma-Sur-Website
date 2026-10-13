@@ -12,7 +12,7 @@ const COUNTRIES: CountryName[] = ["Argentina", "Bolivia", "Perú"];
 const CATEGORIES = ["Legumbres", "Granos", "Semillas", "Andinos"] as const;
 
 export const ProductCatalog: React.FC = () => {
-  const { t, lang } = useLang();
+  const { t, lang, cmsRevision } = useLang();
   const [selectedCountry, setSelectedCountry] = useState<string>("Todos");
   const [selectedCategory, setSelectedCategory] = useState<string>("Todas");
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
@@ -25,7 +25,7 @@ export const ProductCatalog: React.FC = () => {
       category: selectedCategory,
       lang,
     });
-  }, [selectedCountry, selectedCategory, lang]);
+  }, [selectedCountry, selectedCategory, lang, cmsRevision]);
 
   const handleOpenModal = (prod: Product) => {
     setActiveProduct(prod);

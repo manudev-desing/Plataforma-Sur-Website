@@ -1,6 +1,6 @@
 direction: right
 
-title: "Plataforma Sur - Hardened Anti-Scraping & Facade Architecture"
+title: "Plataforma Sur - Hardened Anti-Scraping, Headless CMS & Facade Architecture"
 
 classes: {
   shield: {
@@ -29,6 +29,15 @@ classes: {
       border-radius: 6
     }
   }
+  cms_ui: {
+    style: {
+      fill: "#033038"
+      stroke: "#04BA70"
+      font-color: "#ffffff"
+      stroke-width: 2
+      border-radius: 8
+    }
+  }
   data: {
     style: {
       fill: "#04BA70"
@@ -43,54 +52,81 @@ visitor: "Visitor / Scraper Bot" {
   shape: person
 }
 
-edge_layer: "Edge & Client Hardening Layer" {
+admin_editor: "Commercial Admin Editor" {
+  shape: person
+}
+
+edge_layer: "Edge & Client Presentation Layer" {
   middleware: "Next.js Edge Middleware (src/middleware.ts)" {
     class: shield
-    desc: "Blocks Bot UAs (curl/wget/python/scrapy), Rate Limits IP, Injects CSP & Anti-Scrape Headers"
+    desc: "Blocks Bot UAs, Rate Limits IP, Injects CSP & Anti-Scrape Headers"
   }
   client_shield: "Client SecurityShield (src/components/SecurityShield.tsx)" {
     class: shield
-    desc: "Blocks DevTools shortcuts (F12, Ctrl+U, Ctrl+Shift+I), ContextMenu & Image Dragging"
+    desc: "Blocks DevTools shortcuts, ContextMenu & Image Dragging"
   }
-  ui_components: "Next.js UI & API Route (/api/catalog)" {
+  ui_components: "Public Website UI & API (/ & /api/catalog)" {
     class: service
+  }
+  admin_cms: "WordPress-Style Visual CMS (/admin)" {
+    class: cms_ui
+    desc: "Visual Product & Tech Sheet CRUD (ES/EN), Site Copy Editor, Live Preview & Supabase Sync"
   }
 }
 
 facade_layer: "Mandatory Facade Layer" {
   security_facade: "SecurityFacade (src/facades/security-facade.ts)" {
     class: facade
-    desc: "Orchestrates Bot Detection, Rate Limiting, Header Hardening & Payload Obfuscation"
+    desc: "Orchestrates Bot Detection, Rate Limiting, Header Hardening, Admin Token & Payload Cipher"
   }
   catalog_facade: "CatalogFacade (src/facades/catalog-facade.ts)" {
     class: facade
-    desc: "Orchestrates Product Filtering, Localization & Obfuscated Delivery"
+    desc: "Orchestrates Product Filtering, Localization (ES/EN) & Obfuscated Delivery"
+  }
+  cms_facade: "CmsFacade (src/facades/cms-facade.ts)" {
+    class: facade
+    desc: "Orchestrates CMS CRUD, Bilingual Tech Sheets, Validation, Auth Guard & Supabase Sync"
   }
 }
 
-service_layer: "Service Layer" {
+service_layer: "Service & Adapter Layer" {
   security_service: "SecurityService (src/services/security-service.ts)" {
     class: service
     desc: "UA Fingerprint Regex, Sliding Window Rate Limiter, XOR+Base64 Cipher, CSP Builder"
   }
   catalog_service: "CatalogService (src/services/catalog-service.ts)" {
     class: service
-    desc: "Server-side Product & Translation Repository Wrapper"
+    desc: "Product, Translation & Company Repository Reader"
+  }
+  cms_service: "CmsService (src/services/cms-service.ts)" {
+    class: service
+    desc: "DI Storage Wrapper: Supabase REST/SDK Adapter + Local Hybrid Fallback"
   }
 }
 
-data_store: "Protected Server Data" {
-  products_db: "17 Products & Specs" {
+data_store: "Persistence & Supabase Cloud Layer" {
+  supabase_db: "Supabase PostgreSQL (cms_products, cms_translations, cms_company)" {
+    class: data
+    shape: cylinder
+  }
+  products_db: "Verified Seed & Local Store (17 Products ES/EN & Brand Copy)" {
     class: data
     shape: cylinder
   }
 }
 
 visitor -> edge_layer.middleware: "HTTP Request"
+admin_editor -> edge_layer.admin_cms: "Manages Catalog & Copy"
 edge_layer.middleware -> facade_layer.security_facade: "inspectIncomingRequest()"
 edge_layer.ui_components -> edge_layer.client_shield: "Renders Protected DOM"
-edge_layer.ui_components -> facade_layer.catalog_facade: "getFilteredProducts() / getObfuscatedCatalog()"
+edge_layer.ui_components -> facade_layer.catalog_facade: "getFilteredProducts()"
+edge_layer.admin_cms -> facade_layer.cms_facade: "saveProduct() / deleteProduct() / updateCopy()"
+facade_layer.cms_facade -> facade_layer.security_facade: "verifyAdminSession()"
+facade_layer.cms_facade -> service_layer.cms_service: "Delegates CRUD & Sync"
+facade_layer.cms_facade -> service_layer.catalog_service: "Updates Live Catalog State"
 facade_layer.catalog_facade -> facade_layer.security_facade: "encodeProtectedPayload()"
 facade_layer.security_facade -> service_layer.security_service: "Delegates Bot/Rate/Cipher ops"
 facade_layer.catalog_facade -> service_layer.catalog_service: "Delegates Data Queries"
-service_layer.catalog_service -> data_store.products_db: "Reads Server Data"
+service_layer.cms_service -> data_store.supabase_db: "Upserts / Fetches via Supabase REST API"
+service_layer.cms_service -> data_store.products_db: "Reads/Writes Local Hybrid Store"
+service_layer.catalog_service -> data_store.products_db: "Reads Active Catalog"

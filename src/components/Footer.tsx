@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useLang } from "@/context/LanguageContext";
 import { catalogFacade } from "@/facades/catalog-facade";
 import { BrandLogo } from "@/components/BrandLogo";
+import { getAssetPath } from "@/utils/assets";
 import { MapPin, MessageCircle, Mail } from "lucide-react";
 
 export const Footer: React.FC = () => {
@@ -121,8 +122,16 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 border-t border-border/60 pt-6 text-center text-xs text-muted-foreground">
-          © {currentYear} {companyConfig.companyName}. {t("footer_rights")}
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-border/60 pt-6 text-xs text-muted-foreground">
+          <span>
+            © {currentYear} {companyConfig.companyName}. {t("footer_rights")}
+          </span>
+          <a
+            href={getAssetPath("/admin")}
+            className="text-[11px] font-medium text-muted-foreground/70 transition-colors hover:text-primary"
+          >
+            Acceso CMS Admin
+          </a>
         </div>
       </div>
     </footer>
