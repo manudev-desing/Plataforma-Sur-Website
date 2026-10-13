@@ -32,6 +32,13 @@ export interface SupabaseRestAdapter {
 const LOCAL_STORAGE_KEY = "ps_cms_snapshot_v1";
 export const CMS_UPDATE_EVENT = "ps-cms-updated";
 
+export const FIREBASE_CMS_CONFIG = {
+  projectId: "plataformasur-e9507",
+  apiKey: "AIzaSyCNCeuE6zs5LAZwQZQH5ATad__E4wQnaHM",
+  baseUrl:
+    "https://firestore.googleapis.com/v1/projects/plataformasur-e9507/databases/(default)/documents",
+};
+
 function cloneDeep<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -45,23 +52,21 @@ function buildInitialSeedRecords(): BilingualProductRecord[] {
 }
 
 /**
- * Production Supabase PostgREST Adapter.
- * Connects to Supabase tables (`cms_products`, `cms_translations`, `cms_company_config`)
- * whenever NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are defined.
+ * Multi-Cloud Adapter:
+ * - Connects automatically to Firebase Cloud Firestore (`plataformasur-e9507`) out of the box (including on Vercel)
+ * - Or to Supabase PostgREST if NEXT_PUBLIC_SUPABASE_ANON_KEY is configured.
  */
 export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
   private readonly supabaseUrl: string | null;
   private readonly supabaseKey: string | null;
+  private readonly useFirebase: boolean;
 
-  constructor(
-    supabaseUrl?: string,
-    supabaseKey?: string
-  ) {
+  constructor(supabaseUrl?: string, supabaseKey?: string) {
     this.supabaseUrl =
       supabaseUrl ??
       (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_SUPABASE_URL
         ? process.env.NEXT_PUBLIC_SUPABASE_URL
-        : "https://rydypgusgpvolggdvwyb.supabase.co");
+        : null);
     this.supabaseKey =
       supabaseKey ??
       (typeof process !== "undefined"
@@ -69,14 +74,18 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
           process.env?.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
           null
         : null);
+    this.useFirebase = !(this.supabaseUrl && this.supabaseKey);
   }
 
   public isConfigured(): boolean {
-    return Boolean(this.supabaseUrl && this.supabaseKey);
+    return true;
   }
 
   public getSupabaseUrl(): string | null {
-    return this.supabaseUrl;
+    if (!this.useFirebase && this.supabaseUrl) {
+      return this.supabaseUrl;
+    }
+    return `firebase://firestore/${FIREBASE_CMS_CONFIG.projectId}`;
   }
 
   private getHeaders(preferReturn = false): Record<string, string> {
@@ -92,7 +101,42 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
   }
 
   public async fetchProducts(): Promise<BilingualProductRecord[] | null> {
-    if (!this.isConfigured()) return null;
+    if (this.useFirebase) {
+      try {
+        const res = await fetch(
+          `${FIREBASE_CMS_CONFIG.baseUrl}/cms_products?pageSize=100&key=${FIREBASE_CMS_CONFIG.apiKey}`,
+          { cache: "no-store" }
+        );
+        if (!res.ok) return null;
+        const data = (await res.json()) as {
+          documents?: Array<{
+            fields?: {
+              es_payload?: { stringValue?: string };
+              en_payload?: { stringValue?: string };
+              updated_at?: { stringValue?: string };
+            };
+          }>;
+        };
+        if (!Array.isArray(data.documents) || data.documents.length === 0) {
+          return null;
+        }
+        return data.documents
+          .map((doc) => {
+            const esRaw = doc.fields?.es_payload?.stringValue;
+            const enRaw = doc.fields?.en_payload?.stringValue;
+            if (!esRaw) return null;
+            return {
+              es: JSON.parse(esRaw) as Product,
+              en: enRaw ? (JSON.parse(enRaw) as Partial<Product>) : {},
+              updatedAt: doc.fields?.updated_at?.stringValue,
+            };
+          })
+          .filter((x): x is BilingualProductRecord => x !== null);
+      } catch {
+        return null;
+      }
+    }
+
     try {
       const res = await fetch(
         `${this.supabaseUrl}/rest/v1/cms_products?select=id,es_payload,en_payload,updated_at&order=sort_order.asc`,
@@ -119,7 +163,34 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
   public async upsertProductRow(
     record: BilingualProductRecord
   ): Promise<BilingualProductRecord> {
-    if (!this.isConfigured()) return record;
+    if (this.useFirebase) {
+      try {
+        const docId = encodeURIComponent(record.es.id);
+        await fetch(
+          `${FIREBASE_CMS_CONFIG.baseUrl}/cms_products/${docId}?key=${FIREBASE_CMS_CONFIG.apiKey}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fields: {
+                id: { stringValue: record.es.id },
+                country: { stringValue: record.es.country },
+                category: { stringValue: record.es.category },
+                es_payload: { stringValue: JSON.stringify(record.es) },
+                en_payload: { stringValue: JSON.stringify(record.en ?? {}) },
+                updated_at: {
+                  stringValue: record.updatedAt ?? new Date().toISOString(),
+                },
+              },
+            }),
+          }
+        );
+      } catch {
+        // Fallback gracefully to local store
+      }
+      return record;
+    }
+
     try {
       await fetch(`${this.supabaseUrl}/rest/v1/cms_products`, {
         method: "POST",
@@ -134,13 +205,25 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
         }),
       });
     } catch {
-      // Fallback gracefully to local store if network fails
+      // Fallback gracefully to local store
     }
     return record;
   }
 
   public async deleteProductRow(id: string): Promise<boolean> {
-    if (!this.isConfigured()) return true;
+    if (this.useFirebase) {
+      try {
+        const docId = encodeURIComponent(id);
+        const res = await fetch(
+          `${FIREBASE_CMS_CONFIG.baseUrl}/cms_products/${docId}?key=${FIREBASE_CMS_CONFIG.apiKey}`,
+          { method: "DELETE" }
+        );
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
     try {
       const res = await fetch(
         `${this.supabaseUrl}/rest/v1/cms_products?id=eq.${encodeURIComponent(id)}`,
@@ -156,7 +239,38 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
   }
 
   public async fetchTranslations(): Promise<Record<Locale, Record<string, string>> | null> {
-    if (!this.isConfigured()) return null;
+    if (this.useFirebase) {
+      try {
+        const res = await fetch(
+          `${FIREBASE_CMS_CONFIG.baseUrl}/cms_translations?key=${FIREBASE_CMS_CONFIG.apiKey}`,
+          { cache: "no-store" }
+        );
+        if (!res.ok) return null;
+        const data = (await res.json()) as {
+          documents?: Array<{
+            fields?: {
+              locale?: { stringValue?: string };
+              dictionary?: { stringValue?: string };
+            };
+          }>;
+        };
+        if (!Array.isArray(data.documents) || data.documents.length === 0) {
+          return null;
+        }
+        const result: Record<Locale, Record<string, string>> = cloneDeep(seedTranslations);
+        for (const doc of data.documents) {
+          const loc = doc.fields?.locale?.stringValue as Locale | undefined;
+          const dictRaw = doc.fields?.dictionary?.stringValue;
+          if ((loc === "ES" || loc === "EN") && dictRaw) {
+            result[loc] = { ...result[loc], ...JSON.parse(dictRaw) };
+          }
+        }
+        return result;
+      } catch {
+        return null;
+      }
+    }
+
     try {
       const res = await fetch(
         `${this.supabaseUrl}/rest/v1/cms_translations?select=locale,dictionary`,
@@ -183,7 +297,31 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
   public async upsertTranslations(
     translations: Record<Locale, Record<string, string>>
   ): Promise<boolean> {
-    if (!this.isConfigured()) return true;
+    if (this.useFirebase) {
+      try {
+        const now = new Date().toISOString();
+        for (const locale of ["ES", "EN"] as const) {
+          await fetch(
+            `${FIREBASE_CMS_CONFIG.baseUrl}/cms_translations/${locale}?key=${FIREBASE_CMS_CONFIG.apiKey}`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                fields: {
+                  locale: { stringValue: locale },
+                  dictionary: { stringValue: JSON.stringify(translations[locale]) },
+                  updated_at: { stringValue: now },
+                },
+              }),
+            }
+          );
+        }
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
     try {
       const payload = [
         { locale: "ES", dictionary: translations.ES, updated_at: new Date().toISOString() },
@@ -201,7 +339,25 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
   }
 
   public async fetchCompanyConfig(): Promise<CompanyConfig | null> {
-    if (!this.isConfigured()) return null;
+    if (this.useFirebase) {
+      try {
+        const res = await fetch(
+          `${FIREBASE_CMS_CONFIG.baseUrl}/cms_company_config/default?key=${FIREBASE_CMS_CONFIG.apiKey}`,
+          { cache: "no-store" }
+        );
+        if (!res.ok) return null;
+        const doc = (await res.json()) as {
+          fields?: {
+            config_payload?: { stringValue?: string };
+          };
+        };
+        const raw = doc.fields?.config_payload?.stringValue;
+        return raw ? (JSON.parse(raw) as CompanyConfig) : null;
+      } catch {
+        return null;
+      }
+    }
+
     try {
       const res = await fetch(
         `${this.supabaseUrl}/rest/v1/cms_company_config?select=config_payload&id=eq.default`,
@@ -217,7 +373,28 @@ export class FetchSupabaseRestAdapter implements SupabaseRestAdapter {
   }
 
   public async upsertCompanyConfig(company: CompanyConfig): Promise<boolean> {
-    if (!this.isConfigured()) return true;
+    if (this.useFirebase) {
+      try {
+        const res = await fetch(
+          `${FIREBASE_CMS_CONFIG.baseUrl}/cms_company_config/default?key=${FIREBASE_CMS_CONFIG.apiKey}`,
+          {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fields: {
+                id: { stringValue: "default" },
+                config_payload: { stringValue: JSON.stringify(company) },
+                updated_at: { stringValue: new Date().toISOString() },
+              },
+            }),
+          }
+        );
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
     try {
       const res = await fetch(`${this.supabaseUrl}/rest/v1/cms_company_config`, {
         method: "POST",
@@ -419,6 +596,7 @@ export class CmsService {
       window.localStorage.removeItem(LOCAL_STORAGE_KEY);
       window.dispatchEvent(new CustomEvent(CMS_UPDATE_EVENT));
     }
+    await this.pushAllToSupabase();
   }
 
   public async syncFromSupabase(): Promise<{
