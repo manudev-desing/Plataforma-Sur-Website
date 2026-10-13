@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { products, localizeProduct, Product } from "@/data/products";
+import { Product } from "@/data/products";
+import { catalogFacade } from "@/facades/catalog-facade";
 import { useLang } from "@/context/LanguageContext";
 import ProductCard from "./ProductCard";
 import ProductDetailModal from "./ProductDetailModal";
@@ -17,15 +18,13 @@ export const ProductCatalog: React.FC = () => {
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Filter and localize products
+  // Filter and localize products via CatalogFacade
   const filteredProducts = useMemo(() => {
-    return products
-      .filter(
-        (p) =>
-          (selectedCountry === "Todos" || p.country === selectedCountry) &&
-          (selectedCategory === "Todas" || p.category === selectedCategory)
-      )
-      .map((p) => localizeProduct(p, lang));
+    return catalogFacade.getFilteredProducts({
+      country: selectedCountry,
+      category: selectedCategory,
+      lang,
+    });
   }, [selectedCountry, selectedCategory, lang]);
 
   const handleOpenModal = (prod: Product) => {

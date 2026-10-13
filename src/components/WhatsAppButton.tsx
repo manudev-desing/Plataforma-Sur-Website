@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { createWhatsAppUrl } from "@/data/company";
+import { catalogFacade } from "@/facades/catalog-facade";
 import { MessageCircle } from "lucide-react";
 
 export const WhatsAppButton: React.FC = () => {
   return (
     <a
-      href={createWhatsAppUrl(
+      href={catalogFacade.buildWhatsAppLink(
         "Hola, vengo del sitio web y me interesa recibir información sobre sus productos."
       )}
       target="_blank"

@@ -1,9 +1,18 @@
 direction: right
 
-title: "Plataforma Sur - Architecture & Scraped System Design"
+title: "Plataforma Sur - Hardened Anti-Scraping & Facade Architecture"
 
 classes: {
-  frontend: {
+  shield: {
+    style: {
+      fill: "#7f1d1d"
+      stroke: "#ef4444"
+      font-color: "#ffffff"
+      stroke-width: 2
+      border-radius: 8
+    }
+  }
+  facade: {
     style: {
       fill: "#04444D"
       stroke: "#04BA70"
@@ -12,10 +21,10 @@ classes: {
       border-radius: 8
     }
   }
-  component: {
+  service: {
     style: {
       fill: "#085762"
-      stroke: "#04BA70"
+      stroke: "#38bdf8"
       font-color: "#ffffff"
       border-radius: 6
     }
@@ -28,94 +37,60 @@ classes: {
       border-radius: 6
     }
   }
-  external: {
-    style: {
-      fill: "#f8fafc"
-      stroke: "#64748b"
-      font-color: "#0f172a"
-      border-radius: 8
-    }
-  }
 }
 
-client: "B2B Buyer / Client" {
+visitor: "Visitor / Scraper Bot" {
   shape: person
 }
 
-webapp: "Plataforma Sur WebApp (Next.js 14 + Tailwind)" {
-  class: frontend
-
-  header: "Header Component" {
-    class: component
-    desc: "Bilingual Switcher (ES/EN) + Nav Links + Contact CTA"
+edge_layer: "Edge & Client Hardening Layer" {
+  middleware: "Next.js Edge Middleware (src/middleware.ts)" {
+    class: shield
+    desc: "Blocks Bot UAs (curl/wget/python/scrapy), Rate Limits IP, Injects CSP & Anti-Scrape Headers"
   }
-
-  hero: "Hero Section" {
-    class: component
-    desc: "Carousel (9 Hero Images) + Value Props + Direct Actions"
+  client_shield: "Client SecurityShield (src/components/SecurityShield.tsx)" {
+    class: shield
+    desc: "Blocks DevTools shortcuts (F12, Ctrl+U, Ctrl+Shift+I), ContextMenu & Image Dragging"
   }
-
-  origins: "Origins Section" {
-    class: component
-    desc: "Argentina, Bolivia & Peru production hubs"
-  }
-
-  catalog: "Catalog & Products" {
-    class: component
-    desc: "Filters by Origin & Category + 17 Product Cards"
-  }
-
-  modal: "Product Detail Sheet" {
-    class: component
-    desc: "Tech Specs, Incoterms, Chemical/Physical Parameters"
-  }
-
-  pdf_gen: "PDF Generator Service" {
-    class: component
-    desc: "Client-side Technical Datasheet export"
-  }
-
-  why_us: "Why Us / Nosotros" {
-    class: component
-    desc: "Traceability, Ports, Certifications, Direct B2B"
-  }
-
-  footer: "Footer & Contact" {
-    class: component
-    desc: "Offices (BA, Santa Cruz, Lima) + Inquiries"
+  ui_components: "Next.js UI & API Route (/api/catalog)" {
+    class: service
   }
 }
 
-data_layer: "Static Data & Assets" {
-  products_db: "17 Verified Products" {
+facade_layer: "Mandatory Facade Layer" {
+  security_facade: "SecurityFacade (src/facades/security-facade.ts)" {
+    class: facade
+    desc: "Orchestrates Bot Detection, Rate Limiting, Header Hardening & Payload Obfuscation"
+  }
+  catalog_facade: "CatalogFacade (src/facades/catalog-facade.ts)" {
+    class: facade
+    desc: "Orchestrates Product Filtering, Localization & Obfuscated Delivery"
+  }
+}
+
+service_layer: "Service Layer" {
+  security_service: "SecurityService (src/services/security-service.ts)" {
+    class: service
+    desc: "UA Fingerprint Regex, Sliding Window Rate Limiter, XOR+Base64 Cipher, CSP Builder"
+  }
+  catalog_service: "CatalogService (src/services/catalog-service.ts)" {
+    class: service
+    desc: "Server-side Product & Translation Repository Wrapper"
+  }
+}
+
+data_store: "Protected Server Data" {
+  products_db: "17 Products & Specs" {
     class: data
     shape: cylinder
   }
-  translations: "i18n Dictionaries (ES / EN)" {
-    class: data
-  }
-  assets: "25 High-Res Images & Logos" {
-    class: data
-  }
 }
 
-external_channels: "Direct Channels" {
-  class: external
-  whatsapp: "WhatsApp Business (+591 6893-8712)" {
-    shape: document
-  }
-  email: "Commercial Email (comercial@productosdelsur.com)" {
-    shape: document
-  }
-}
-
-client -> webapp.header: "Visits / Switches Language"
-client -> webapp.catalog: "Filters by Country & Category"
-webapp.catalog -> webapp.modal: "Opens Technical Sheet"
-webapp.modal -> webapp.pdf_gen: "Downloads PDF Datasheet"
-webapp.modal -> external_channels.whatsapp: "Direct Quote Request"
-webapp.footer -> external_channels.email: "Commercial Inquiry"
-
-webapp.catalog -> data_layer.products_db: "Reads specifications"
-webapp.header -> data_layer.translations: "Switches Locale"
-webapp.hero -> data_layer.assets: "Loads Carousel & Grain Imagery"
+visitor -> edge_layer.middleware: "HTTP Request"
+edge_layer.middleware -> facade_layer.security_facade: "inspectIncomingRequest()"
+edge_layer.ui_components -> edge_layer.client_shield: "Renders Protected DOM"
+edge_layer.ui_components -> facade_layer.catalog_facade: "getFilteredProducts() / getObfuscatedCatalog()"
+facade_layer.catalog_facade -> facade_layer.security_facade: "encodeProtectedPayload()"
+facade_layer.security_facade -> service_layer.security_service: "Delegates Bot/Rate/Cipher ops"
+facade_layer.catalog_facade -> service_layer.catalog_service: "Delegates Data Queries"
+service_layer.catalog_service -> data_store.products_db: "Reads Server Data"

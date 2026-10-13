@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLang } from "@/context/LanguageContext";
-import { createWhatsAppUrl } from "@/data/company";
+import { catalogFacade } from "@/facades/catalog-facade";
 import { getAssetPath } from "@/utils/assets";
 import { ArrowRight, MessageCircle } from "lucide-react";
 
@@ -73,7 +73,7 @@ export const Hero: React.FC = () => {
             </a>
 
             <a
-              href={createWhatsAppUrl(t("hero_wa_message"))}
+              href={catalogFacade.buildWhatsAppLink(t("hero_wa_message"))}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-md border border-midnight-green/30 bg-white/80 px-6 py-3.5 text-base font-semibold text-midnight-green backdrop-blur transition-colors hover:bg-white"

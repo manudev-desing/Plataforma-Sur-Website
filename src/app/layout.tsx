@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import SecurityShield from "@/components/SecurityShield";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -18,6 +19,17 @@ export const metadata: Metadata = {
     "Plataforma Sur, Global Business, exportación, alubia, frijol negro, sésamo, chía, quinua real, maní runner, granos, legumbres, Argentina, Bolivia, Perú, B2B",
   icons: {
     icon: "/favicon.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: true,
+      "max-snippet": -1,
+    },
   },
   openGraph: {
     title: "Plataforma Sur · Global Business",
@@ -36,7 +48,9 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <body className={`${outfit.variable} font-outfit antialiased bg-white text-foreground`}>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <SecurityShield>{children}</SecurityShield>
+        </LanguageProvider>
       </body>
     </html>
   );

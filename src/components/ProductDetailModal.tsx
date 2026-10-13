@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Product } from "@/data/products";
 import { useLang } from "@/context/LanguageContext";
-import { companyConfig, createWhatsAppUrl, createEmailUrl } from "@/data/company";
+import { catalogFacade } from "@/facades/catalog-facade";
 import { getAssetPath } from "@/utils/assets";
 import CountryFlag from "./CountryFlag";
 import {
@@ -19,7 +19,6 @@ import {
   Calendar,
   Layers,
   Sparkles,
-  Info,
 } from "lucide-react";
 
 interface ProductDetailModalProps {
@@ -34,6 +33,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   onClose,
 }) => {
   const { t } = useLang();
+  const companyConfig = catalogFacade.getCompanyInfo();
 
   if (!isOpen || !product) return null;
 
@@ -267,7 +267,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {/* Actions Bar */}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
-              href={createWhatsAppUrl(waMessage)}
+              href={catalogFacade.buildWhatsAppLink(waMessage)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-emerald px-4 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald/90"
@@ -277,7 +277,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             </a>
 
             <a
-              href={createEmailUrl(emailSubject, emailBody)}
+              href={catalogFacade.buildEmailLink(emailSubject, emailBody)}
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary/90"
             >
               <Mail className="h-4 w-4" />

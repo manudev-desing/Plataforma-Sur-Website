@@ -98,3 +98,7 @@ temp/
 .out
 .storybook-out
 storybook-static
+
+# Local Security & Code Graph files (Never push to remote)
+BLINDAJE_SEGURIDAD_LOCAL.md
+.code-graph/

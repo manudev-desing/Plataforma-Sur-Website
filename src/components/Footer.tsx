@@ -3,14 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import { useLang } from "@/context/LanguageContext";
-import { companyConfig, createWhatsAppUrl, createEmailUrl } from "@/data/company";
-import { getAssetPath } from "@/utils/assets";
+import { catalogFacade } from "@/facades/catalog-facade";
 import { BrandLogo } from "@/components/BrandLogo";
 import { MapPin, MessageCircle, Mail } from "lucide-react";
 
 export const Footer: React.FC = () => {
   const { t } = useLang();
   const currentYear = new Date().getFullYear();
+  const companyConfig = catalogFacade.getCompanyInfo();
 
   const offices = [
     { city: "Buenos Aires", country: t("country_Argentina") },
@@ -36,7 +36,9 @@ export const Footer: React.FC = () => {
 
             <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
               <a
-                href={createWhatsAppUrl("Hola, vengo del sitio web y me interesa cotizar productos.")}
+                href={catalogFacade.buildWhatsAppLink(
+                  "Hola, vengo del sitio web y me interesa cotizar productos."
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-emerald/90"
@@ -46,7 +48,10 @@ export const Footer: React.FC = () => {
               </a>
 
               <a
-                href={createEmailUrl("Consulta de importación", "Estimado equipo de Plataforma Sur,\n\n")}
+                href={catalogFacade.buildEmailLink(
+                  "Consulta de importación",
+                  "Estimado equipo de Plataforma Sur,\n\n"
+                )}
                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary/90"
               >
                 <Mail className="h-5 w-5" />
@@ -93,7 +98,7 @@ export const Footer: React.FC = () => {
             <ul className="mt-4 space-y-2.5 text-sm text-foreground/85">
               <li>
                 <a
-                  href={createWhatsAppUrl("Hola, consulta desde la web.")}
+                  href={catalogFacade.buildWhatsAppLink("Hola, consulta desde la web.")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 transition-colors hover:text-accent"

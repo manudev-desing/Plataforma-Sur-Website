@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useLang } from "@/context/LanguageContext";
-import { products } from "@/data/products";
+import { catalogFacade } from "@/facades/catalog-facade";
 import CountryFlag, { CountryName } from "./CountryFlag";
 
 const ORIGINS: CountryName[] = ["Argentina", "Bolivia", "Perú"];
@@ -31,7 +31,7 @@ export const Origins: React.FC = () => {
 
         <div className="grid gap-6 md:grid-cols-3">
           {ORIGINS.map((country) => {
-            const count = products.filter((p) => p.country === country).length;
+            const count = catalogFacade.getProductCountByCountry(country);
             return (
               <div
                 key={country}
