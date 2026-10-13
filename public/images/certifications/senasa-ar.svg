@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <circle cx="60" cy="60" r="56" fill="#04444D" stroke="#04BA70" stroke-width="3"/>
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF"/>
+  {/* Sol / Bandera argentina estilizada */}
+  <rect x="25" y="34" width="70" height="7" fill="#75AADB"/>
+  <rect x="25" y="41" width="70" height="7" fill="#FFFFFF"/>
+  <rect x="25" y="48" width="70" height="7" fill="#75AADB"/>
+  <circle cx="60" cy="44.5" r="3" fill="#F6B40E"/>
+  <text x="60" y="74" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#04444D" text-anchor="middle" letter-spacing="1">SENASA</text>
+  <text x="60" y="86" font-family="'Outfit', sans-serif" font-weight="700" font-size="7" fill="#04BA70" text-anchor="middle" letter-spacing="0.5">ARGENTINA</text>
+  <text x="60" y="96" font-family="'Outfit', sans-serif" font-weight="600" font-size="6" fill="#3D6E75" text-anchor="middle">SANIDAD AGROALIMENTARIA</text>
+</svg>

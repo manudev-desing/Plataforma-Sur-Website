@@ -1,345 +1,165 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Globe, Heart, Target, Eye } from "lucide-react";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import ScrollReveal from "@/components/ScrollReveal";
+import { getAssetPath } from "@/utils/assets";
+import { Globe, Heart, Target, Eye, Compass, Shield, Award, ArrowRight } from "lucide-react";
 
-export default function Historia() {
+export default function HistoriaPage() {
   return (
-    <div className="min-h-screen pt-20">
-      {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-midnight-green via-midnight-green to-emerald">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-white"
-          >
-            <h1 className="text-4xl md:text-6xl font-outfit-bold mb-6">
-              Historia de la Marca
-            </h1>
-            <p className="text-xl md:text-2xl font-outfit-regular max-w-3xl mx-auto text-gray-100">
-              Un viaje de construcción de puentes entre culturas, regiones y
-              personas
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white flex flex-col font-outfit">
+      <Header />
 
-      {/* Historia Principal del Brandbook */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-                Nuestros Inicios
-              </h2>
-              <div className="space-y-6 text-lg font-outfit-regular text-gray-700 leading-relaxed">
-                <p>
-                  <strong className="text-midnight-green">
-                    Plataforma Sur nació con una visión clara:
-                  </strong>{" "}
-                  llevar la riqueza de América Latina al mundo, sin barreras. Su
-                  historia comienza hace tres años, impulsada por un grupo de
-                  soñadores que entendieron que exportar no era solo mover
-                  productos, sino construir puentes de confianza entre culturas,
-                  entre regiones, entre personas.
-                </p>
-                <p>
-                  Desde sus primeras exportaciones de granos hacia mercados
-                  internacionales, la empresa supo que lo suyo no era un negocio
-                  puntual:{" "}
-                  <strong className="text-emerald">
-                    era un compromiso con la excelencia, con el cumplimiento,
-                    con la palabra empeñada.
-                  </strong>
-                </p>
-                <p>
-                  Hoy, Plataforma Sur representa una nueva forma de hacer
-                  comercio internacional: cercana, confiable y sólida. Es una
-                  marca que cree en la visión a largo plazo, que se mueve rápido
-                  pero construye con paciencia. Que respeta los tiempos del
-                  mundo, pero nunca pierde su origen.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="bg-gradient-to-br from-midnight-green to-emerald p-8 rounded-2xl text-white">
-                <Globe className="text-emerald mb-6" size={48} />
-                <h3 className="text-2xl font-outfit-bold mb-4">
-                  Más que una empresa
-                </h3>
-                <p className="font-outfit-regular leading-relaxed text-gray-100 mb-4">
-                  Plataforma Sur es más que una empresa. Es un estilo de vida.
-                  Es movimiento. Es expansión.
-                </p>
-                <p className="font-outfit-bold text-emerald text-lg">
-                  Es el sur que exporta al mundo, con corazón y estrategia.
-                </p>
-              </div>
-            </motion.div>
+      <main className="flex-1 pt-20">
+        {/* Compact Hero Section */}
+        <section className="relative overflow-hidden bg-midnight-green text-white py-24 md:py-32">
+          {/* Subtle Isotipo Watermark */}
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 opacity-5 pointer-events-none select-none">
+            <Image
+              src={getAssetPath("/images/logos/isotipo.png")}
+              alt=""
+              fill
+              className="object-contain"
+            />
           </div>
-        </div>
-      </section>
 
-      {/* Misión y Visión del Brandbook */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Misión y Visión
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-2xl mx-auto">
-              Los pilares que definen nuestro propósito y guían nuestro camino
-              hacia el futuro
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="bg-white p-8 rounded-2xl shadow-lg"
-            >
-              <Target className="text-emerald mb-6" size={48} />
-              <h3 className="text-2xl font-outfit-bold text-midnight-green mb-6">
-                Misión
-              </h3>
-              <div className="space-y-4 font-outfit-regular text-gray-700 leading-relaxed">
-                <p>
-                  Brindar soluciones eficientes de exportación desde América del
-                  Sur al mundo, asegurando el cumplimiento de estándares
-                  internacionales, tiempos pactados y un servicio confiable.
-                </p>
-                <p>
-                  <strong className="text-midnight-green">
-                    Creamos relaciones de largo plazo
-                  </strong>{" "}
-                  con nuestros clientes a través de un servicio estructurado,
-                  cercano y proactivo.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="bg-white p-8 rounded-2xl shadow-lg"
-            >
-              <Eye className="text-emerald mb-6" size={48} />
-              <h3 className="text-2xl font-outfit-bold text-midnight-green mb-6">
-                Visión
-              </h3>
-              <div className="space-y-4 font-outfit-regular text-gray-700 leading-relaxed">
-                <p>
-                  Convertirnos en la principal plataforma exportadora de
-                  Latinoamérica, reconocida a nivel mundial por su solidez,
-                  compromiso y capacidad de conectar productos de calidad con
-                  mercados globales.
-                </p>
-                <p>
-                  <strong className="text-midnight-green">
-                    Ser un referente de confianza, innovación y crecimiento
-                    sostenible
-                  </strong>{" "}
-                  en el comercio internacional y mundial.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Propósito */}
-      <section className="section-padding bg-midnight-green text-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold mb-6">
-              Nuestro Propósito
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-200 mb-8 max-w-2xl mx-auto">
-              Nuestro propósito crea puentes
-            </p>
-            <div className="bg-emerald/10 backdrop-blur-sm p-8 rounded-2xl border border-emerald/20">
-              <h3 className="text-2xl md:text-3xl font-outfit-bold text-emerald mb-4">
-                CONECTAR AL MUNDO CON LA RIQUEZA DE LATINOAMÉRICA
-              </h3>
-              <p className="text-xl font-outfit-regular text-gray-100">
-                a través de una plataforma confiable, sólida y en constante
-                expansión.
+          <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <ScrollReveal variant="fade-up">
+              <span className="inline-block rounded-full bg-emerald/20 border border-emerald/40 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-light mb-4">
+                Identidad & Trayectoria
+              </span>
+              <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight max-w-3xl">
+                Nuestra Historia
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed">
+                Un puente de confianza entre culturas, regiones y personas: conectamos la riqueza productiva de Sudamérica con el comercio global.
               </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+            </ScrollReveal>
+          </div>
+        </section>
 
-      {/* Personalidad y Valores */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Personalidad y Valores
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-3xl mx-auto">
-              Plataforma Sur es como ese socio confiable que cumple, resuelve y
-              siempre piensa en el próximo paso. Es sólida, estratégica y
-              humana.
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Personalidad */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-outfit-bold text-midnight-green mb-8">
-                Personalidad
-              </h3>
-              <div className="grid grid-cols-2 gap-6">
-                {[
-                  { title: "Confiable", desc: "Siempre cumple lo que promete" },
-                  { title: "Ágil", desc: "Responde con rapidez y eficiencia" },
-                  {
-                    title: "Cercana",
-                    desc: "Crea vínculos humanos, no solo negocios",
-                  },
-                  {
-                    title: "Inspiradora",
-                    desc: "Contagia energía, transmite solidez y abre caminos",
-                  },
-                ].map((trait, index) => (
-                  <motion.div
-                    key={trait.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="bg-emerald/5 p-6 rounded-lg"
-                  >
-                    <h4 className="font-outfit-bold text-midnight-green text-lg mb-2">
-                      {trait.title}
-                    </h4>
-                    <p className="font-outfit-regular text-gray-600 text-sm">
-                      {trait.desc}
+        {/* Narrative Section (Alternating White Section) */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="grid gap-12 lg:grid-cols-12 items-center">
+              <div className="lg:col-span-7">
+                <ScrollReveal variant="fade-left">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald block mb-2">
+                    Orígenes del Proyecto
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green tracking-tight mb-6">
+                    Del sur al mundo con vocación de largo plazo
+                  </h2>
+                  <div className="space-y-5 text-muted-foreground leading-relaxed text-base md:text-lg">
+                    <p>
+                      <strong className="text-midnight-green">Plataforma Sur nació con una convicción clara:</strong> llevar la riqueza agrícola de América Latina al mundo sin fricciones ni asimetrías. Exportar no es simplemente trasladar toneladas de grano; es edificar alianzas duraderas donde la palabra empeñada tenga valor de garantía.
                     </p>
-                  </motion.div>
-                ))}
+                    <p>
+                      Desde los primeros embarques de legumbres y granos andinos hacia mercados de alta exigencia, la premisa fue innegociable: excelencia en origen, rigor fitosanitario y cumplimiento puntual de cada contrato.
+                    </p>
+                    <p>
+                      Hoy consolidamos operaciones multiorigen en <strong className="text-midnight-green">Argentina, Bolivia y Perú</strong>, ofreciendo una puerta transparente para empresas internacionales que buscan regularidad, trazabilidad y trato profesional.
+                    </p>
+                  </div>
+                </ScrollReveal>
               </div>
-            </motion.div>
 
-            {/* Valores */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-outfit-bold text-midnight-green mb-8">
-                Valores
-              </h3>
-              <div className="space-y-6">
-                {[
-                  {
-                    title: "Responsabilidad",
-                    desc: "Cumplimos nuestros acuerdos, tiempos y compromisos. Nuestra palabra es la garantía para nuestros clientes.",
-                  },
-                  {
-                    title: "Calidad",
-                    desc: "Solo comercializamos productos que superan estándares internacionales.",
-                  },
-                  {
-                    title: "Confianza",
-                    desc: "Construimos relaciones duraderas, no transacciones pasajeras.",
-                  },
-                ].map((valor, index) => (
-                  <motion.div
-                    key={valor.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-start space-x-4"
-                  >
-                    <div className="w-3 h-3 bg-emerald rounded-full mt-2 flex-shrink-0"></div>
-                    <div>
-                      <h4 className="font-outfit-bold text-midnight-green text-lg mb-2">
-                        {valor.title}
-                      </h4>
-                      <p className="font-outfit-regular text-gray-700 leading-relaxed">
-                        {valor.desc}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="lg:col-span-5">
+                <ScrollReveal variant="fade-right">
+                  <div className="relative overflow-hidden rounded-3xl bg-midnight-green p-8 md:p-10 text-white shadow-xl">
+                    <Heart className="w-10 h-10 text-emerald mb-6" />
+                    <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-light block mb-2">
+                      Esencia de Marca
+                    </span>
+                    <blockquote className="text-2xl md:text-3xl font-bold leading-snug mb-6">
+                      “Conectamos al mundo con lo mejor de Latinoamérica.”
+                    </blockquote>
+                    <p className="text-sm text-gray-300 leading-relaxed">
+                      Cada contenedor despachado representa una promesa honrada con nuestros productores en origen y con nuestros compradores en ultramar.
+                    </p>
+                  </div>
+                </ScrollReveal>
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Esencia de Marca */}
-      <section className="section-padding bg-gradient-to-r from-emerald to-midnight-green text-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold mb-8">
-              Esencia de Marca
-            </h2>
-            <div className="bg-white/10 backdrop-blur-sm p-12 rounded-3xl">
-              <Heart className="text-emerald mx-auto mb-8" size={64} />
-              <h3 className="text-4xl md:text-5xl font-outfit-bold mb-6">
-                "Conectamos al mundo con lo mejor de Latinoamérica"
-              </h3>
-              <p className="text-xl font-outfit-regular text-gray-200 max-w-2xl mx-auto">
-                Esta es nuestra esencia, el corazón que late en cada operación,
-                en cada relación que construimos
-              </p>
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
+
+        {/* Misión y Visión (Alternating Muted Section per Brandbook §7.5) */}
+        <section className="py-20 md:py-28 bg-muted/40 border-y border-border">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <ScrollReveal variant="fade-up">
+              <div className="text-center max-w-2xl mx-auto mb-16">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald block mb-2">
+                  Ejes de Rumbo
+                </span>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green tracking-tight">
+                  Misión y Visión Estratégica
+                </h2>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid gap-8 md:grid-cols-2">
+              <ScrollReveal variant="fade-up" delay={0.1}>
+                <div className="h-full rounded-3xl border border-border/80 bg-white p-8 md:p-10 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="w-12 h-12 rounded-2xl bg-emerald/10 text-emerald flex items-center justify-center mb-6">
+                      <Target className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-midnight-green mb-4">Nuestra Misión</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Brindar soluciones eficientes de exportación desde América del Sur al mundo, asegurando el cumplimiento estricto de estándares internacionales, tiempos pactados y un servicio confiable. Construimos relaciones comerciales basadas en la transparencia y la cercanía proactiva.
+                    </p>
+                  </div>
+                </div>
+              </ScrollReveal>
+
+              <ScrollReveal variant="fade-up" delay={0.2}>
+                <div className="h-full rounded-3xl border border-border/80 bg-white p-8 md:p-10 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="w-12 h-12 rounded-2xl bg-midnight-green/10 text-midnight-green flex items-center justify-center mb-6">
+                      <Eye className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-midnight-green mb-4">Nuestra Visión</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Consolidarnos como la principal plataforma exportadora de Latinoamérica, reconocida internacionalmente por su solidez de palabra, capacidad de suministro continuo y estándares de trazabilidad en alimentos y materias primas.
+                    </p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Inter-page */}
+        <section className="py-20 bg-white text-center">
+          <div className="max-w-4xl mx-auto px-6">
+            <ScrollReveal variant="scale-in">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green mb-4">
+                Conozca nuestra oferta de exportación
+              </h2>
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+                Explore nuestras 17 fichas técnicas de granos, legumbres y semillas de Argentina, Bolivia y Perú.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/#productos" className="btn-primary">
+                  Ver Catálogo B2B <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+                <Link href="/servicios" className="btn-secondary">
+                  Servicios y Territorio
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

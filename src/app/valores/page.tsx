@@ -1,309 +1,204 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Shield, Award, Heart, Target, Eye, Users } from "lucide-react";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import ScrollReveal from "@/components/ScrollReveal";
+import { getAssetPath } from "@/utils/assets";
+import { Shield, Award, Heart, CheckCircle2, ArrowRight } from "lucide-react";
 
-export default function Valores() {
+export default function ValoresPage() {
   const coreValues = [
     {
       icon: Shield,
       title: "Responsabilidad",
+      badge: "Compromiso de entrega",
       description:
-        "Cumplimos nuestros acuerdos, tiempos y compromisos. Nuestra palabra es la garantía para nuestros clientes.",
-      color: "from-midnight-green to-emerald",
+        "Cumplimos lo prometido, en tiempo y forma. Nuestra palabra es el aval fundamental que sostiene cada operación comercial a través de fronteras y continentes.",
+      bullets: [
+        "Plazos pactados respetados al 100%",
+        "Informes de trazabilidad en tiempo real",
+        "Pólizas y garantías contractuales sólidas",
+      ],
     },
     {
       icon: Award,
       title: "Calidad",
+      badge: "Estándar de ultramar",
       description:
-        "Solo comercializamos productos que superan estándares internacionales.",
-      color: "from-emerald to-midnight-green",
+        "Exigencia internacional en cada lote. Desde la selección por color y calibre hasta los análisis de humedad y fitosanitarios, comercializamos productos que superan auditorías globales.",
+      bullets: [
+        "Lotes zarandeados y calibrados",
+        "Certificaciones SENASA, SENASAG y HACCP",
+        "Inspección independiente Surveyor / SGS",
+      ],
     },
     {
       icon: Heart,
       title: "Confianza",
+      badge: "Relaciones duraderas",
       description:
-        "Construimos relaciones duraderas, no transacciones pasajeras.",
-      color: "from-midnight-green/80 to-emerald/80",
+        "Base irremplazable de todo negocio sostenible. Priorizamos alianzas plurianuales con importadores e industrias que valoran la honestidad operativa sobre transacciones ocasionales.",
+      bullets: [
+        "Trato directo con directores de operaciones",
+        "Resolución proactiva de contingencias",
+        "Transparencia en estructuras de costos e Incoterms",
+      ],
     },
   ];
 
   const personalityTraits = [
-    {
-      title: "Confiable",
-      description: "Siempre cumple lo que promete",
-      icon: Shield,
-    },
-    {
-      title: "Ágil",
-      description: "Responde con rapidez y eficiencia",
-      icon: Target,
-    },
-    {
-      title: "Cercana",
-      description: "Crea vínculos humanos, no solo negocios",
-      icon: Users,
-    },
-    {
-      title: "Inspiradora",
-      description: "Contagia energía, transmite solidez y abre caminos",
-      icon: Eye,
-    },
+    { title: "Confiable", desc: "Cumple con rigor lo acordado en cada contrato." },
+    { title: "Ágil", desc: "Responde y resuelve con rapidez, sin fricciones burocráticas." },
+    { title: "Cercana", desc: "Crea vínculos humanos, no solo transacciones comerciales." },
+    { title: "Inspiradora", desc: "Proyecta solidez, energía y visión de futuro para la región." },
   ];
 
   return (
-    <div className="min-h-screen pt-20">
-      {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-midnight-green via-midnight-green to-emerald">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-white"
-          >
-            <h1 className="text-4xl md:text-6xl font-outfit-bold mb-6">
-              Personalidad y Valores
-            </h1>
-            <p className="text-xl md:text-2xl font-outfit-regular max-w-4xl mx-auto text-gray-100">
-              Plataforma Sur es como ese socio confiable que cumple, resuelve y
-              siempre piensa en el próximo paso. Es sólida, estratégica y
-              humana.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white flex flex-col font-outfit">
+      <Header />
 
-      {/* Personalidad */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Nuestra Personalidad
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-3xl mx-auto">
-              Así es como nos comportamos, así es como nos relacionamos con el
-              mundo
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {personalityTraits.map((trait, index) => (
-              <motion.div
-                key={trait.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-gray-50 rounded-2xl p-8 text-center card-hover"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-emerald to-midnight-green rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <trait.icon className="text-white" size={32} />
-                </div>
-                <h3 className="text-xl font-outfit-bold text-midnight-green mb-4">
-                  {trait.title}
-                </h3>
-                <p className="text-gray-700 font-outfit-regular leading-relaxed">
-                  {trait.description}
-                </p>
-              </motion.div>
-            ))}
+      <main className="flex-1 pt-20">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden bg-midnight-green text-white py-24 md:py-32">
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 opacity-5 pointer-events-none select-none">
+            <Image
+              src={getAssetPath("/images/logos/isotipo.png")}
+              alt=""
+              fill
+              className="object-contain"
+            />
           </div>
-        </div>
-      </section>
 
-      {/* Valores */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Nuestros Valores
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-3xl mx-auto">
-              Los principios fundamentales que guían cada una de nuestras
-              decisiones y acciones
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {coreValues.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-3xl shadow-xl overflow-hidden card-hover"
-              >
-                {/* Header with icon */}
-                <div
-                  className={`bg-gradient-to-br ${value.color} p-8 text-center`}
-                >
-                  <value.icon className="text-white mx-auto mb-4" size={64} />
-                  <h3 className="text-2xl font-outfit-bold text-white">
-                    {value.title}
-                  </h3>
-                </div>
-
-                {/* Content */}
-                <div className="p-8">
-                  <p className="text-lg font-outfit-regular text-gray-700 leading-relaxed text-center">
-                    {value.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Territorio de Marca */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Nuestro Territorio
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-3xl mx-auto">
-              El espacio conceptual donde la marca se desenvuelve, se expresa y
-              construye su identidad
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "Exportación inteligente",
-                description:
-                  "No solo se trata de mover productos, sino de hacerlo con precisión, cumplimiento y visión estratégica.",
-              },
-              {
-                title: "Conexión internacional",
-                description:
-                  "La marca actúa como un puente entre Latinoamérica y el mundo, generando relaciones duraderas con empresas y mercados globales.",
-              },
-              {
-                title: "Confianza estructural",
-                description:
-                  "Un entorno donde la palabra vale, los tiempos se cumplen y la calidad es no negociable.",
-              },
-              {
-                title: "Versatilidad y proyección",
-                description:
-                  "Desde granos hasta madera o cuero, el territorio de la marca es amplio y dinámico, abriendo nuevas rutas de comercio.",
-              },
-              {
-                title: "Solidez corporativa sin rigidez",
-                description:
-                  "Actúa con estructura, pero sin burocracia. Plataforma Sur es ágil, cercana y resolutiva.",
-              },
-            ].map((territory, index) => (
-              <motion.div
-                key={territory.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-gradient-to-br from-emerald/5 to-midnight-green/5 rounded-2xl p-8 border border-emerald/10"
-              >
-                <h3 className="text-xl font-outfit-bold text-midnight-green mb-4">
-                  {territory.title}
-                </h3>
-                <p className="text-gray-700 font-outfit-regular leading-relaxed">
-                  {territory.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Valor Fundamental */}
-      <section className="section-padding bg-gradient-to-r from-midnight-green to-emerald text-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold mb-8">
-              Nuestro Valor Fundamental
-            </h2>
-            <div className="bg-white/10 backdrop-blur-sm p-12 rounded-3xl max-w-4xl mx-auto">
-              <h3 className="text-2xl md:text-3xl font-outfit-bold text-emerald mb-6">
-                Comercio Internacional de Confianza
-              </h3>
-              <p className="text-xl font-outfit-regular mb-6">
-                "Conectamos productos latinoamericanos de calidad con el mundo,
-                a través de una plataforma confiable, ágil y estructurada."
+          <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <ScrollReveal variant="fade-up">
+              <span className="inline-block rounded-full bg-emerald/20 border border-emerald/40 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-light mb-4">
+                ADN de Marca
+              </span>
+              <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight max-w-3xl">
+                Valores & Personalidad
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed">
+                Plataforma Sur es el socio confiable que cumple, resuelve y piensa en el próximo paso: sólida, estratégica y humana.
               </p>
-              <div className="w-16 h-1 bg-emerald mx-auto"></div>
-              <p className="text-2xl font-outfit-bold mt-6">Confianza</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Palabras Clave */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Palabras que nos Definen
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {[
-              "Conexión",
-              "Seguridad",
-              "Expansión",
-              "Transparencia",
-              "Negocios duraderos",
-              "Precisión",
-            ].map((word, index) => (
-              <motion.div
-                key={word}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-xl p-6 text-center shadow-md card-hover"
-              >
-                <span className="text-lg font-outfit-semibold text-midnight-green">
-                  {word}
-                </span>
-              </motion.div>
-            ))}
+            </ScrollReveal>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* 3 Core Values (Brandbook §1.6) */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <ScrollReveal variant="fade-up">
+              <div className="text-center max-w-2xl mx-auto mb-16">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald block mb-2">
+                  Pilares de Conducta
+                </span>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green tracking-tight">
+                  Nuestros Tres Valores Fundamentales
+                </h2>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid gap-8 lg:grid-cols-3">
+              {coreValues.map((val, idx) => {
+                const Icon = val.icon;
+                return (
+                  <ScrollReveal key={val.title} variant="fade-up" delay={idx * 0.1}>
+                    <div className="h-full rounded-3xl border border-border/80 bg-muted/30 p-8 md:p-10 shadow-sm transition-all duration-300 hover:bg-white hover:border-emerald/40 hover:shadow-card-hover flex flex-col justify-between">
+                      <div>
+                        <div className="w-14 h-14 rounded-2xl bg-midnight-green text-white flex items-center justify-center mb-6 shadow-md">
+                          <Icon className="w-7 h-7 text-emerald" />
+                        </div>
+                        <span className="text-xs font-bold uppercase tracking-wider text-emerald block mb-1">
+                          {val.badge}
+                        </span>
+                        <h3 className="text-2xl font-bold text-midnight-green mb-3">
+                          {val.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-muted-foreground mb-6">
+                          {val.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-6 border-t border-border/60">
+                        <ul className="space-y-2.5">
+                          {val.bullets.map((b) => (
+                            <li key={b} className="flex items-center gap-2 text-xs font-medium text-midnight-green">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald shrink-0" />
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Personality Traits (Brandbook §1.7) */}
+        <section className="py-20 md:py-28 bg-muted/40 border-y border-border">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <ScrollReveal variant="fade-up">
+              <div className="max-w-2xl mx-auto text-center mb-16">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald block mb-2">
+                  Tono & Actitud
+                </span>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green tracking-tight">
+                  Personalidad de Marca
+                </h2>
+                <p className="mt-3 text-muted-foreground text-sm md:text-base">
+                  Equilibrio exacto entre el rigor del Sabio (conocimiento y precisión) y la energía del Héroe (entrega y expansión).
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {personalityTraits.map((t, idx) => (
+                <ScrollReveal key={t.title} variant="fade-up" delay={idx * 0.1}>
+                  <div className="h-full rounded-2xl bg-white border border-border/80 p-6 shadow-xs flex flex-col justify-between">
+                    <div>
+                      <span className="text-xs font-mono font-bold text-emerald">0{idx + 1}</span>
+                      <h4 className="text-xl font-bold text-midnight-green mt-2 mb-2">{t.title}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{t.desc}</p>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-20 bg-white text-center">
+          <div className="max-w-4xl mx-auto px-6">
+            <ScrollReveal variant="scale-in">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green mb-4">
+                Construyamos una relación comercial duradera
+              </h2>
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+                Hablemos sobre los requerimientos de suministro de su mercado para la próxima campaña agrícola.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/contacto" className="btn-primary">
+                  Contactar al Equipo <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+                <Link href="/#productos" className="btn-secondary">
+                  Ver Fichas Técnicas
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

@@ -1,317 +1,173 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Truck, Shield, Globe2, Target, ArrowRight } from "lucide-react";
+import React from "react";
+import Image from "next/image";
 import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import ScrollReveal from "@/components/ScrollReveal";
+import { getAssetPath } from "@/utils/assets";
+import { Globe2, Truck, ShieldCheck, Target, ArrowRight, CheckCircle2 } from "lucide-react";
 
-export default function Servicios() {
-  const services = [
+export default function ServiciosPage() {
+  const territoryPillars = [
     {
       icon: Globe2,
-      title: "Exportación inteligente",
+      number: "01",
+      title: "Exportación Inteligente",
+      subtitle: "Precisión, cumplimiento y visión estratégica",
       description:
-        "No solo se trata de mover productos, sino de hacerlo con precisión, cumplimiento y visión estratégica.",
-      image: "/images/services/exportacion.jpg",
+        "No nos limitamos a transportar mercadería; articulamos una operación integral que contempla certificaciones de aduana, ventanas de embarque estacionales y asesoramiento fitosanitario para evitar sobrecostos.",
+      tags: ["Trazabilidad documental", "Inspección previa a carga", "Análisis de laboratorio"],
     },
     {
       icon: Truck,
-      title: "Conexión internacional",
+      number: "02",
+      title: "Conexión Internacional",
+      subtitle: "Puente directo entre Sudamérica y mercados globales",
       description:
-        "La marca actúa como un puente entre Latinoamérica y el mundo, generando relaciones duraderas con empresas y mercados globales.",
-      image: "/images/services/conexion.jpg",
+        "Coordinamos rutas marítimas desde puertos del Atlántico (Buenos Aires, Rosario) y del Pacífico (Callao, Arica, Iquique), optimizando tiempos de tránsito hacia Europa, Asia y Norteamérica.",
+      tags: ["Logística multimodal", "Gestión de forwarders", "Incoterms FOB / CFR / CIF"],
     },
     {
-      icon: Shield,
-      title: "Confianza estructural",
+      icon: ShieldCheck,
+      number: "03",
+      title: "Confianza Estructural",
+      subtitle: "La palabra vale y los plazos se cumplen",
       description:
-        "Un entorno donde la palabra vale, los tiempos se cumplen y la calidad es no negociable.",
-      image: "/images/services/confianza.jpg",
+        "Operamos con contratos transparentes y seguimiento de cada lote. Nuestra solvencia operativa garantiza que los calibres, purezas y niveles de humedad pactados sean exactamente los entregados.",
+      tags: ["Garantía contractual", "Supervisión SENASA / SENASAG", "Protocolos HACCP"],
     },
     {
       icon: Target,
-      title: "Versatilidad y proyección",
+      number: "04",
+      title: "Versatilidad & Proyección",
+      subtitle: "Amplitud y dinamismo para nuevas oportunidades",
       description:
-        "Desde granos hasta madera o cuero, el territorio de la marca es amplio y dinámico, abriendo nuevas rutas de comercio.",
-      image: "/images/services/versatilidad.jpg",
+        "Desde legumbres selectas como alubia y frijol negro, hasta superalimentos andinos (quinua real, chía, sésamo), adaptamos envases y calibres a las exigencias industriales del comprador.",
+      tags: ["Bolsas PP 25/50 kg", "Big Bags 1000 kg", "Etiquetado bilingüe personalizado"],
     },
   ];
 
   return (
-    <div className="min-h-screen pt-20">
-      {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-midnight-green via-midnight-green to-emerald">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-white"
-          >
-            <h1 className="text-4xl md:text-6xl font-outfit-bold mb-6">
-              Nuestros Servicios
-            </h1>
-            <p className="text-xl md:text-2xl font-outfit-regular max-w-3xl mx-auto text-gray-100">
-              Brindar soluciones eficientes de exportación desde América del Sur
-              al mundo
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white flex flex-col font-outfit">
+      <Header />
 
-      {/* Services Grid */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Nuestro Territorio
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-2xl mx-auto">
-              El espacio conceptual donde la marca se desenvuelve, se expresa y
-              construye su identidad
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover"
-              >
-                {/* Image Placeholder */}
-                <div className="relative">
-                  <div className="aspect-[16/9] bg-gray-200 border-2 border-dashed border-gray-400 flex flex-col items-center justify-center">
-                    <div className="text-center p-8">
-                      <service.icon
-                        className="text-gray-400 mx-auto mb-4"
-                        size={64}
-                      />
-                      <p className="text-gray-500 font-outfit-semibold text-lg">
-                        {service.title}
-                      </p>
-                      <p className="text-gray-400 font-outfit-regular text-sm mt-2">
-                        Imagen placeholder
-                      </p>
-                      <p className="text-xs text-gray-400 mt-2">
-                        Reemplazar: {service.image}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-8">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-emerald to-midnight-green rounded-xl flex items-center justify-center">
-                      <service.icon className="text-white" size={24} />
-                    </div>
-                    <h3 className="text-xl font-outfit-bold text-midnight-green">
-                      {service.title}
-                    </h3>
-                  </div>
-
-                  <p className="text-gray-700 font-outfit-regular leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+      <main className="flex-1 pt-20">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden bg-midnight-green text-white py-24 md:py-32">
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 opacity-5 pointer-events-none select-none">
+            <Image
+              src={getAssetPath("/images/logos/isotipo.png")}
+              alt=""
+              fill
+              className="object-contain"
+            />
           </div>
-        </div>
-      </section>
 
-      {/* Mission & Vision */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <div className="grid md:grid-cols-2 gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="bg-white p-8 rounded-2xl shadow-lg"
-            >
-              <Target className="text-emerald mb-6" size={48} />
-              <h3 className="text-2xl font-outfit-bold text-midnight-green mb-6">
-                Nuestra Misión
-              </h3>
-              <div className="space-y-4 font-outfit-regular text-gray-700 leading-relaxed">
-                <p>
-                  Brindar soluciones eficientes de exportación desde América del
-                  Sur al mundo, asegurando el cumplimiento de estándares
-                  internacionales, tiempos pactados y un servicio confiable.
-                </p>
-                <p>
-                  <strong className="text-midnight-green">
-                    Creamos relaciones de largo plazo
-                  </strong>{" "}
-                  con nuestros clientes a través de un servicio estructurado,
-                  cercano y proactivo.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="bg-white p-8 rounded-2xl shadow-lg"
-            >
-              <Shield className="text-emerald mb-6" size={48} />
-              <h3 className="text-2xl font-outfit-bold text-midnight-green mb-6">
-                Nuestra Visión
-              </h3>
-              <div className="space-y-4 font-outfit-regular text-gray-700 leading-relaxed">
-                <p>
-                  Convertirnos en la principal plataforma exportadora de
-                  Latinoamérica, reconocida a nivel mundial por su solidez,
-                  compromiso y capacidad de conectar productos de calidad con
-                  mercados globales.
-                </p>
-                <p>
-                  <strong className="text-midnight-green">
-                    Ser un referente de confianza, innovación y crecimiento
-                    sostenible
-                  </strong>{" "}
-                  en el comercio internacional y mundial.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Additional Territory Elements */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Solidez Corporativa sin Rigidez
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-3xl mx-auto">
-              Actúa con estructura, pero sin burocracia. Plataforma Sur es ágil,
-              cercana y resolutiva.
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-outfit-bold text-midnight-green mb-6">
-                Nuestra Personalidad
-              </h3>
-              <p className="text-lg font-outfit-regular text-gray-700 mb-8 leading-relaxed">
-                Plataforma Sur es como ese socio confiable que cumple, resuelve
-                y siempre piensa en el próximo paso. Es sólida, estratégica y
-                humana.
+          <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <ScrollReveal variant="fade-up">
+              <span className="inline-block rounded-full bg-emerald/20 border border-emerald/40 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-light mb-4">
+                Territorio & Soluciones
+              </span>
+              <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight max-w-3xl">
+                Servicios de Exportación
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed">
+                Estructura, cumplimiento y rigor operativo para conectar su empresa con las cadenas agrícolas más competitivas de Sudamérica.
               </p>
-              <div className="grid grid-cols-2 gap-6">
-                {[
-                  { title: "Confiable", desc: "Siempre cumple lo que promete" },
-                  { title: "Ágil", desc: "Responde con rapidez y eficiencia" },
-                  {
-                    title: "Cercana",
-                    desc: "Crea vínculos humanos, no solo negocios",
-                  },
-                  {
-                    title: "Inspiradora",
-                    desc: "Contagia energía, transmite solidez y abre caminos",
-                  },
-                ].map((trait, index) => (
-                  <motion.div
-                    key={trait.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="bg-emerald/5 p-4 rounded-lg"
-                  >
-                    <h4 className="font-outfit-bold text-midnight-green mb-2">
-                      {trait.title}
-                    </h4>
-                    <p className="font-outfit-regular text-gray-600 text-sm">
-                      {trait.desc}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
-              <div className="bg-gradient-to-br from-midnight-green to-emerald p-8 rounded-2xl text-white">
-                <h4 className="text-2xl font-outfit-bold mb-6">
-                  Propuesta de Valor
-                </h4>
-                <p className="font-outfit-regular leading-relaxed text-lg">
-                  "Conectamos productos latinoamericanos de calidad con el
-                  mundo, a través de una plataforma confiable, ágil y
-                  estructurada."
-                </p>
-                <div className="mt-8">
-                  <div className="w-16 h-1 bg-emerald"></div>
-                  <p className="text-2xl font-outfit-bold mt-4">Confianza</p>
-                  <p className="text-emerald font-outfit-semibold">
-                    Valor fundamental
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+            </ScrollReveal>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA Section */}
-      <section className="section-padding bg-midnight-green text-white">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold mb-6">
-              ¿Listo para conectar con el mundo?
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-200 mb-8 max-w-2xl mx-auto">
-              Conectamos al mundo con la riqueza de Latinoamérica a través de
-              una plataforma confiable, sólida y en constante expansión
-            </p>
-            <Link
-              href="/contacto"
-              className="btn-primary inline-flex items-center gap-2"
-            >
-              Conectar con nosotros
-              <ArrowRight size={20} />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+        {/* Territory Pillars (Alternating Rhythm) */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <ScrollReveal variant="fade-up">
+              <div className="max-w-2xl mb-16">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald block mb-2">
+                  Los 4 Pilares del Territorio
+                </span>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green tracking-tight">
+                  Solidez corporativa sin rigidez burocrática
+                </h2>
+                <p className="mt-3 text-muted-foreground text-base">
+                  Actuamos con estructura, pero sin burocracia: ágiles, cercanos y resolutivos en cada etapa de la exportación.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid gap-8 md:grid-cols-2">
+              {territoryPillars.map((pillar, idx) => {
+                const Icon = pillar.icon;
+                return (
+                  <ScrollReveal key={pillar.number} variant="fade-up" delay={idx * 0.1}>
+                    <div className="group h-full rounded-3xl border border-border/80 bg-muted/30 p-8 md:p-10 shadow-sm transition-all duration-300 hover:bg-white hover:border-emerald/40 hover:shadow-card-hover flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="w-14 h-14 rounded-2xl bg-midnight-green/10 text-midnight-green group-hover:bg-emerald group-hover:text-white flex items-center justify-center transition-colors">
+                            <Icon className="w-7 h-7" />
+                          </div>
+                          <span className="font-mono text-xl font-bold text-emerald">
+                            {pillar.number}
+                          </span>
+                        </div>
+
+                        <h3 className="font-outfit text-2xl font-bold text-midnight-green mb-1">
+                          {pillar.title}
+                        </h3>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-emerald mb-4">
+                          {pillar.subtitle}
+                        </p>
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                          {pillar.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-6 border-t border-border/60">
+                        <ul className="space-y-2">
+                          {pillar.tags.map((tag) => (
+                            <li key={tag} className="flex items-center gap-2 text-xs font-medium text-midnight-green">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald shrink-0" />
+                              <span>{tag}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Banner */}
+        <section className="py-20 bg-muted/40 border-t border-border">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <ScrollReveal variant="scale-in">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-midnight-green mb-4">
+                ¿Desea cotizar un embarque para su país?
+              </h2>
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+                Nuestro departamento comercial le responderá con disponibilidad de lote y ficha técnica en menos de 24 horas.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/contacto" className="btn-primary">
+                  Contactar al Equipo <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+                <Link href="/#productos" className="btn-secondary">
+                  Explorar Catálogo
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

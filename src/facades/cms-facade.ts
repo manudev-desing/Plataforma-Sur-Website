@@ -8,6 +8,12 @@ import { CatalogService, defaultCatalogService } from "../services/catalog-servi
 import { SecurityFacade, securityFacade } from "./security-facade";
 import { Locale } from "../data/translations";
 import { CompanyConfig } from "../data/company";
+import {
+  StorageService,
+  defaultStorageService,
+  UploadResult,
+} from "../services/storage/cloudinary-storage-service";
+
 
 interface AdminSessionPayload {
   role: "cms-admin";
@@ -20,18 +26,27 @@ export class CmsFacade {
   private readonly cmsService: CmsService;
   private readonly catalogService: CatalogService;
   private readonly secFacade: SecurityFacade;
+  private readonly storageService: StorageService;
   private readonly expectedPasscodeDigest: string;
 
   constructor(
     cmsService: CmsService = defaultCmsService,
     catalogService: CatalogService = defaultCatalogService,
     secFacade: SecurityFacade = securityFacade,
+    storageOrPasscode?: StorageService | string,
     adminPasscode?: string
   ) {
     this.cmsService = cmsService;
     this.catalogService = catalogService;
     this.secFacade = secFacade;
+    if (typeof storageOrPasscode === "string") {
+      this.storageService = defaultStorageService;
+      adminPasscode = storageOrPasscode;
+    } else {
+      this.storageService = storageOrPasscode ?? defaultStorageService;
+    }
     if (adminPasscode) {
+
       this.expectedPasscodeDigest = this.secFacade.computeDigest(adminPasscode);
     } else if (
       typeof process !== "undefined" &&
@@ -247,7 +262,20 @@ export class CmsFacade {
     await this.cmsService.resetToDefaults();
   }
 
+  public async uploadAsset(
+    token: string,
+    file: File | Blob,
+    customFilename?: string
+  ): Promise<UploadResult> {
+    if (!this.verifyAdminToken(token)) {
+      throw new Error("Sesión no autorizada para subir archivos.");
+    }
+
+    return this.storageService.uploadFile(file, customFilename);
+  }
+
   public createEmptyProductTemplate(): BilingualProductRecord {
+
     const slugSuffix = Math.floor(100 + Math.random() * 900);
     return {
       es: {

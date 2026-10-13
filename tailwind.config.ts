@@ -9,9 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Plataforma Sur Brand Colors
-        "midnight-green": "#04444D",
-        emerald: "#04BA70",
+        // Plataforma Sur Brand Colors (Brandbook §2.4)
+        "midnight-green": {
+          DEFAULT: "#04444D",
+          light: "#065A66",
+          dark: "#033038",
+        },
+        emerald: {
+          DEFAULT: "#04BA70",
+          light: "#2DD48D",
+          dark: "#039A5C",
+        },
         white: "#FFFFFF",
         primary: {
           DEFAULT: "#04444D",
@@ -64,6 +72,7 @@ const config: Config = {
         "particle-float": "particleFloat 6s ease-in-out infinite",
         "splash-pulse": "splashPulse 8s ease-in-out infinite",
         "text-flow": "textFlow 4s ease-in-out infinite",
+        marquee: "marquee 35s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -136,6 +145,10 @@ const config: Config = {
         textFlow: {
           "0%, 100%": { backgroundPosition: "0% 50%" },
           "50%": { backgroundPosition: "100% 50%" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
       borderRadius: {

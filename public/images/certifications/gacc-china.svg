@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <circle cx="60" cy="60" r="56" fill="#04444D" stroke="#04BA70" stroke-width="3"/>
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF"/>
+  <rect x="25" y="34" width="70" height="18" rx="4" fill="#DE2910"/>
+  {/* Estrella china dorada */}
+  <polygon points="60,37 62,42 67,42 63,45 65,50 60,47 55,50 57,45 53,42 58,42" fill="#FFDE00"/>
+  <text x="60" y="74" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#04444D" text-anchor="middle" letter-spacing="1">GACC</text>
+  <text x="60" y="86" font-family="'Outfit', sans-serif" font-weight="700" font-size="7" fill="#DE2910" text-anchor="middle" letter-spacing="0.5">CHINA REGISTRATION</text>
+  <text x="60" y="96" font-family="'Outfit', sans-serif" font-weight="600" font-size="6" fill="#3D6E75" text-anchor="middle">GENERAL ADMIN OF CUSTOMS</text>
+</svg>

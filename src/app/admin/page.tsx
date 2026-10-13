@@ -201,6 +201,8 @@ export default function AdminCmsPage() {
     null
   );
   const [importJsonText, setImportJsonText] = useState<string>("");
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
 
   const showToast = (type: "success" | "error", message: string) => {
     setToast({ type, message });
@@ -308,7 +310,29 @@ export default function AdminCmsPage() {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editingRecord) return;
+    try {
+      setIsUploading(true);
+      showToast("success", `Subiendo "${file.name}" a la nube (Cloudinary)...`);
+      const res = await cmsFacade.uploadAsset(adminToken, file);
+      setEditingRecord({
+        ...editingRecord,
+        es: { ...editingRecord.es, image: res.secureUrl },
+      });
+      showToast("success", `¡Imagen subida con éxito! URL vinculada al producto.`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Error al subir imagen.";
+      showToast("error", msg);
+    } finally {
+      setIsUploading(false);
+      e.target.value = "";
+    }
+  };
+
   const handleDuplicateProduct = async (sourceId: string) => {
+
     try {
       const newId = `${sourceId}-copia-${Math.floor(10 + Math.random() * 89)}`;
       const dup = await cmsFacade.duplicateProduct(sourceId, newId, adminToken);
@@ -1019,10 +1043,32 @@ export default function AdminCmsPage() {
                               placeholder="/images/products/alubia-blanco.jpg o https://..."
                               className="w-full rounded-lg border border-[#D3E4E6] bg-white px-3 py-2 text-xs font-mono"
                             />
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1">
+                              <label className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold text-white shadow-sm transition-all cursor-pointer ${
+                                isUploading
+                                  ? "bg-gray-400 cursor-not-allowed"
+                                  : "bg-[#04BA70] hover:bg-[#039A5C]"
+                              }`}>
+                                <Upload className="h-4 w-4" />
+                                <span>{isUploading ? "Subiendo a Cloudinary..." : "Subir Imagen desde mi Dispositivo (Cloudinary)"}</span>
+                                <input
+                                  type="file"
+                                  accept="image/jpeg,image/png,image/webp,image/jpg"
+                                  disabled={isUploading}
+                                  onChange={handleFileUpload}
+                                  className="hidden"
+                                />
+                              </label>
+                              <span className="text-[11px] text-[#3D6E75]">
+                                Formatos admitidos: JPG, PNG, WebP (Optimizado en la nube gratis)
+                              </span>
+                            </div>
+
                             <div>
                               <span className="block text-[11px] font-semibold text-[#3D6E75] mb-1">
                                 O elige una fotografía oficial de la galería:
                               </span>
+
                               <div className="flex flex-wrap gap-1.5">
                                 {BUILTIN_PRODUCT_IMAGES.map((imgPath) => (
                                   <button

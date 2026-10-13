@@ -1,442 +1,356 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Mail, Phone, MapPin, Clock, Send, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react'
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import ScrollReveal from "@/components/ScrollReveal";
+import { catalogFacade } from "@/facades/catalog-facade";
+import { getAssetPath } from "@/utils/assets";
+import { Mail, Phone, MapPin, Send, MessageCircle, CheckCircle2, ShieldCheck } from "lucide-react";
 
 interface ContactFormData {
-  name: string
-  email: string
-  company: string
-  phone: string
-  subject: string
-  message: string
-  productInterest: string
+  name: string;
+  email: string;
+  company: string;
+  country: string;
+  phone: string;
+  productInterest: string;
+  volume: string;
+  message: string;
 }
 
-export default function Contacto() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  
+export default function ContactoPage() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const companyConfig = catalogFacade.getCompanyInfo();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm<ContactFormData>()
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ContactFormData>();
 
   const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true)
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    console.log('Form data:', data)
-    setIsSubmitted(true)
-    setIsSubmitting(false)
-    reset()
-  }
+    // Generar mensaje enriquecido para canal comercial y fallback
+    const waText = `*Consulta Comercial Web Plataforma Sur*\n\n` +
+      `*Nombre:* ${data.name}\n` +
+      `*Empresa:* ${data.company || "N/A"} (${data.country || "Internacional"})\n` +
+      `*Email:* ${data.email}\n` +
+      `*Producto de interés:* ${data.productInterest}\n` +
+      `*Volumen estimado:* ${data.volume || "A coordinar"}\n` +
+      `*Mensaje:* ${data.message}`;
 
-  const contactInfo = [
-    {
-      icon: MapPin,
-      title: 'Ubicación',
-      details: [
-        'Buenos Aires, Argentina',
-        'Av. Corrientes 1234, Piso 10',
-        'C1043AAZ - Microcentro'
-      ]
-    },
-    {
-      icon: Phone,
-      title: 'Teléfono',
-      details: [
-        '+54 11 1234-5678',
-        '+54 11 8765-4321',
-        'WhatsApp disponible'
-      ]
-    },
-    {
-      icon: Mail,
-      title: 'Email',
-      details: [
-        'info@plataformasur.com',
-        'ventas@plataformasur.com',
-        'contacto@plataformasur.com'
-      ]
-    },
-    {
-      icon: Clock,
-      title: 'Horarios',
-      details: [
-        'Lun - Vie: 9:00 - 18:00',
-        'Sáb: 9:00 - 13:00',
-        'GMT-3 (Buenos Aires)'
-      ]
+    const waUrl = catalogFacade.buildWhatsAppLink(waText);
+
+    // Abrir WhatsApp en pestaña nueva y confirmar en pantalla
+    if (typeof window !== "undefined") {
+      window.open(waUrl, "_blank", "noopener,noreferrer");
     }
-  ]
+
+    setIsSubmitted(true);
+    reset();
+  };
 
   const offices = [
     {
-      city: 'Buenos Aires',
-      country: 'Argentina',
-      address: 'Av. Corrientes 1234, Piso 10',
-      phone: '+54 11 1234-5678',
-      email: 'buenosaires@plataformasur.com'
+      city: "Buenos Aires",
+      country: "Argentina",
+      role: "Hub Logístico Atlántico & NOA",
+      address: "Puerto Madero, CABA",
     },
     {
-      city: 'São Paulo',
-      country: 'Brasil',
-      address: 'Rua Augusta 2000, Sala 1501',
-      phone: '+55 11 3456-7890',
-      email: 'saopaulo@plataformasur.com'
+      city: "Santa Cruz de la Sierra",
+      country: "Bolivia",
+      role: "Eje Agroindustrial Granos & Quinua",
+      address: "Equipetrol Norte",
     },
     {
-      city: 'Montevideo',
-      country: 'Uruguay',
-      address: '18 de Julio 1234, Oficina 801',
-      phone: '+598 2 345-6789',
-      email: 'montevideo@plataformasur.com'
-    }
-  ]
+      city: "Lima",
+      country: "Perú",
+      role: "Hub Pacífico & Granos Andinos",
+      address: "Miraflores / Callao",
+    },
+  ];
 
   return (
-    <div className="min-h-screen pt-20">
-      {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-midnight-green via-midnight-green to-emerald">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center text-white"
-          >
-            <h1 className="text-4xl md:text-6xl font-outfit-bold mb-6">
-              Conectemos
-            </h1>
-            <p className="text-xl md:text-2xl font-outfit-regular max-w-3xl mx-auto text-gray-100">
-              Estamos aquí para construir el puente hacia nuevas oportunidades comerciales
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white flex flex-col font-outfit">
+      <Header />
 
-      {/* Contact Form & Info */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl font-outfit-bold text-midnight-green mb-6">
-                Envíanos tu consulta
-              </h2>
-              <p className="text-lg text-gray-700 font-outfit-regular mb-8">
-                Completa el formulario y nuestro equipo te contactará en menos de 24 horas.
+      <main className="flex-1 pt-20">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden bg-midnight-green text-white py-24 md:py-32">
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 opacity-5 pointer-events-none select-none">
+            <Image
+              src={getAssetPath("/images/logos/isotipo.png")}
+              alt=""
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+            <ScrollReveal variant="fade-up">
+              <span className="inline-block rounded-full bg-emerald/20 border border-emerald/40 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-light mb-4">
+                Atención Comercial B2B
+              </span>
+              <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight max-w-3xl">
+                Contacto & Cotizaciones
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed">
+                Inicie una consulta formal con nuestro equipo de exportación. Respuesta garantizada en menos de 24 horas laborables.
               </p>
+            </ScrollReveal>
+          </div>
+        </section>
 
-              {isSubmitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-emerald/10 border border-emerald rounded-lg p-8 text-center"
-                >
-                  <div className="w-16 h-16 bg-emerald rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Send className="text-white" size={24} />
-                  </div>
-                  <h3 className="text-xl font-outfit-bold text-midnight-green mb-2">
-                    ¡Mensaje enviado!
-                  </h3>
-                  <p className="text-gray-700 font-outfit-regular">
-                    Gracias por contactarnos. Te responderemos pronto.
-                  </p>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-outfit-semibold text-midnight-green mb-2">
-                        Nombre completo *
-                      </label>
-                      <input
-                        {...register('name', { required: 'El nombre es requerido' })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald focus:border-transparent font-outfit-regular"
-                        placeholder="Tu nombre completo"
-                      />
-                      {errors.name && (
-                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-                      )}
-                    </div>
+        {/* Contact Split Form & Info */}
+        <section className="py-20 md:py-28 bg-white">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="grid gap-16 lg:grid-cols-12 items-start">
+              {/* Form Column (7 cols) */}
+              <div className="lg:col-span-7">
+                <ScrollReveal variant="fade-left">
+                  <div className="rounded-3xl border border-border bg-white p-8 md:p-12 shadow-sm">
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-midnight-green tracking-tight mb-2">
+                      Solicitud de Cotización Internacional
+                    </h2>
+                    <p className="text-sm text-muted-foreground mb-8">
+                      Complete los datos de su requerimiento para asignarle un ejecutivo comercial especializado.
+                    </p>
 
-                    <div>
-                      <label className="block text-sm font-outfit-semibold text-midnight-green mb-2">
-                        Email *
-                      </label>
-                      <input
-                        {...register('email', { 
-                          required: 'El email es requerido',
-                          pattern: {
-                            value: /^\S+@\S+$/i,
-                            message: 'Email no válido'
-                          }
-                        })}
-                        type="email"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald focus:border-transparent font-outfit-regular"
-                        placeholder="tu@email.com"
-                      />
-                      {errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-outfit-semibold text-midnight-green mb-2">
-                        Empresa
-                      </label>
-                      <input
-                        {...register('company')}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald focus:border-transparent font-outfit-regular"
-                        placeholder="Nombre de tu empresa"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-outfit-semibold text-midnight-green mb-2">
-                        Teléfono
-                      </label>
-                      <input
-                        {...register('phone')}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald focus:border-transparent font-outfit-regular"
-                        placeholder="+54 11 1234-5678"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-outfit-semibold text-midnight-green mb-2">
-                      Área de interés
-                    </label>
-                    <select
-                      {...register('productInterest')}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald focus:border-transparent font-outfit-regular"
-                    >
-                      <option value="">Selecciona una opción</option>
-                      <option value="granos">Granos y Cereales</option>
-                      <option value="madera">Madera Certificada</option>
-                      <option value="cueros">Cueros y Pieles</option>
-                      <option value="especiales">Productos Especiales</option>
-                      <option value="servicios">Servicios de Exportación</option>
-                      <option value="otro">Otro</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-outfit-semibold text-midnight-green mb-2">
-                      Asunto *
-                    </label>
-                    <input
-                      {...register('subject', { required: 'El asunto es requerido' })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald focus:border-transparent font-outfit-regular"
-                      placeholder="Breve descripción del tema"
-                    />
-                    {errors.subject && (
-                      <p className="text-red-500 text-sm mt-1">{errors.subject.message}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-outfit-semibold text-midnight-green mb-2">
-                      Mensaje *
-                    </label>
-                    <textarea
-                      {...register('message', { required: 'El mensaje es requerido' })}
-                      rows={5}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald focus:border-transparent font-outfit-regular resize-none"
-                      placeholder="Cuéntanos más detalles sobre tu consulta..."
-                    ></textarea>
-                    {errors.message && (
-                      <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
-                    )}
-                  </div>
-
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full btn-primary inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                        Enviando...
-                      </>
-                    ) : (
-                      <>
-                        Enviar mensaje
-                        <Send size={20} />
-                      </>
-                    )}
-                  </motion.button>
-                </form>
-              )}
-            </motion.div>
-
-            {/* Contact Information */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl font-outfit-bold text-midnight-green mb-6">
-                Información de contacto
-              </h2>
-              
-              <div className="space-y-8">
-                {contactInfo.map((info, index) => (
-                  <motion.div
-                    key={info.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-start space-x-4"
-                  >
-                    <div className="w-12 h-12 bg-emerald/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <info.icon className="text-emerald" size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-outfit-semibold text-midnight-green mb-2">
-                        {info.title}
-                      </h3>
-                      <div className="space-y-1">
-                        {info.details.map((detail, idx) => (
-                          <p key={idx} className="text-gray-700 font-outfit-regular">
-                            {detail}
-                          </p>
-                        ))}
+                    {isSubmitted ? (
+                      <div className="rounded-2xl border border-emerald/30 bg-emerald/10 p-8 text-center">
+                        <div className="w-16 h-16 rounded-full bg-emerald text-white flex items-center justify-center mx-auto mb-4 shadow-md">
+                          <CheckCircle2 className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-xl font-bold text-midnight-green mb-2">
+                          ¡Solicitud enviada con éxito!
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto">
+                          Se ha generado la conexión directa con nuestro desk de exportación. Si no se abrió la ventana de WhatsApp, puede hacer clic a continuación:
+                        </p>
+                        <a
+                          href={catalogFacade.buildWhatsAppLink("Hola, acabo de enviar el formulario en la web.")}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-primary"
+                        >
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          Abrir WhatsApp Directo
+                        </a>
                       </div>
+                    ) : (
+                      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <div className="grid sm:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-midnight-green mb-2">
+                              Nombre Completo *
+                            </label>
+                            <input
+                              {...register("name", { required: "El nombre es obligatorio" })}
+                              type="text"
+                              placeholder="Ej: Roberto Gómez"
+                              className="w-full rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-midnight-green focus:border-emerald focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald/20"
+                            />
+                            {errors.name && (
+                              <p className="text-red-600 text-xs mt-1 font-medium">{errors.name.message}</p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-midnight-green mb-2">
+                              Correo Corporativo *
+                            </label>
+                            <input
+                              {...register("email", {
+                                required: "El correo es obligatorio",
+                                pattern: {
+                                  value: /^\S+@\S+$/i,
+                                  message: "Formato de correo inválido",
+                                },
+                              })}
+                              type="email"
+                              placeholder="nombre@empresa.com"
+                              className="w-full rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-midnight-green focus:border-emerald focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald/20"
+                            />
+                            {errors.email && (
+                              <p className="text-red-600 text-xs mt-1 font-medium">{errors.email.message}</p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="grid sm:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-midnight-green mb-2">
+                              Empresa Importadora *
+                            </label>
+                            <input
+                              {...register("company", { required: "La empresa es obligatoria" })}
+                              type="text"
+                              placeholder="Razón social o comercial"
+                              className="w-full rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-midnight-green focus:border-emerald focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald/20"
+                            />
+                            {errors.company && (
+                              <p className="text-red-600 text-xs mt-1 font-medium">{errors.company.message}</p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-midnight-green mb-2">
+                              País de Destino *
+                            </label>
+                            <input
+                              {...register("country", { required: "El país es obligatorio" })}
+                              type="text"
+                              placeholder="Ej: España, Brasil, Turquía..."
+                              className="w-full rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-midnight-green focus:border-emerald focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald/20"
+                            />
+                            {errors.country && (
+                              <p className="text-red-600 text-xs mt-1 font-medium">{errors.country.message}</p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="grid sm:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-midnight-green mb-2">
+                              Línea de Interés *
+                            </label>
+                            <select
+                              {...register("productInterest", { required: "Seleccione un rubro" })}
+                              className="w-full rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-midnight-green focus:border-emerald focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald/20"
+                            >
+                              <option value="">Seleccione una opción...</option>
+                              <option value="Alubia Blanco">Alubia Blanco (Argentina)</option>
+                              <option value="Frijol Negro">Frijol Negro (Argentina / Bolivia)</option>
+                              <option value="Sésamo Blanco/Negro">Sésamo Natural / Seleccionado (Bolivia)</option>
+                              <option value="Quinua Real (Blanca, Roja, Negra)">Quinua Real Orgánica (Bolivia / Perú)</option>
+                              <option value="Chía">Semillas de Chía (Argentina / Bolivia)</option>
+                              <option value="Maíz Amarillo">Maíz Amarillo (Argentina)</option>
+                              <option value="Maní Runner">Maní Runner (Argentina)</option>
+                              <option value="Otro producto agrícola">Otro requerimiento a medida</option>
+                            </select>
+                            {errors.productInterest && (
+                              <p className="text-red-600 text-xs mt-1 font-medium">{errors.productInterest.message}</p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-midnight-green mb-2">
+                              Volumen Estimado (FCL / TM)
+                            </label>
+                            <input
+                              {...register("volume")}
+                              type="text"
+                              placeholder="Ej: 1 x 20' FCL (24 TM)"
+                              className="w-full rounded-xl border border-border bg-muted/30 px-4 py-3 text-sm text-midnight-green focus:border-emerald focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald/20"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-bold uppercase tracking-wider text-midnight-green mb-2">
+                            Detalles del Requerimiento / Puerto Destino *
+                          </label>
+                          <textarea
+                            {...register("message", { required: "Por favor detalle su consulta" })}
+                            rows={4}
+                            placeholder="Especifique especificaciones de calidad, Incoterm deseado (FOB/CFR/CIF) o calendario de embarque previsto..."
+                            className="w-full rounded-xl border border-border bg-muted/30 p-4 text-sm text-midnight-green focus:border-emerald focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald/20 resize-none"
+                          />
+                          {errors.message && (
+                            <p className="text-red-600 text-xs mt-1 font-medium">{errors.message.message}</p>
+                          )}
+                        </div>
+
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full btn-primary py-4 text-base font-bold flex items-center justify-center gap-2"
+                        >
+                          <Send className="w-5 h-5" />
+                          <span>{isSubmitting ? "Procesando..." : "Enviar Consulta Comercial"}</span>
+                        </button>
+                      </form>
+                    )}
+                  </div>
+                </ScrollReveal>
+              </div>
+
+              {/* Information Column (5 cols) */}
+              <div className="lg:col-span-5 space-y-8">
+                <ScrollReveal variant="fade-right">
+                  <div className="rounded-3xl bg-midnight-green text-white p-8 md:p-10 shadow-lg">
+                    <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-light block mb-2">
+                      Atención Directa
+                    </span>
+                    <h3 className="text-2xl font-bold mb-4">Canales Inmediatos</h3>
+                    <p className="text-sm text-gray-200 leading-relaxed mb-6">
+                      Para consultas urgentes de cotización FOB/CIF o confirmación de disponibilidad de cosecha, comuníquese con nuestro desk central:
+                    </p>
+
+                    <div className="space-y-4">
+                      <a
+                        href={catalogFacade.buildWhatsAppLink("Hola, deseo consultar directamente con un asesor.")}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 rounded-2xl bg-white/10 p-4 hover:bg-emerald transition-colors"
+                      >
+                        <MessageCircle className="w-6 h-6 text-emerald group-hover:text-white shrink-0" />
+                        <div>
+                          <span className="text-xs text-gray-300 block">WhatsApp Desk</span>
+                          <span className="text-sm font-bold text-white">{companyConfig.whatsappDisplay}</span>
+                        </div>
+                      </a>
+
+                      <a
+                        href={`mailto:${companyConfig.email}`}
+                        className="flex items-center gap-3 rounded-2xl bg-white/10 p-4 hover:bg-emerald transition-colors"
+                      >
+                        <Mail className="w-6 h-6 text-emerald shrink-0" />
+                        <div>
+                          <span className="text-xs text-gray-300 block">Correo Oficial</span>
+                          <span className="text-sm font-bold text-white break-all">{companyConfig.email}</span>
+                        </div>
+                      </a>
                     </div>
-                  </motion.div>
-                ))}
+                  </div>
+                </ScrollReveal>
+
+                {/* Regional Presence Cards */}
+                <ScrollReveal variant="fade-right" delay={0.1}>
+                  <div className="rounded-3xl border border-border bg-muted/30 p-8">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-midnight-green mb-6">
+                      Oficinas y Nodos de Embarque
+                    </h4>
+                    <div className="space-y-5">
+                      {offices.map((off) => (
+                        <div key={off.city} className="flex items-start gap-3">
+                          <MapPin className="w-5 h-5 text-emerald shrink-0 mt-0.5" />
+                          <div>
+                            <span className="font-bold text-midnight-green block text-sm">
+                              {off.city}, {off.country}
+                            </span>
+                            <span className="text-xs text-muted-foreground block">{off.role}</span>
+                            <span className="text-[11px] text-muted-foreground/70">{off.address}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </ScrollReveal>
               </div>
-
-              {/* Social Media */}
-              <div className="mt-12 pt-8 border-t border-gray-200">
-                <h3 className="font-outfit-semibold text-midnight-green mb-4">
-                  Síguenos en redes sociales
-                </h3>
-                <div className="flex space-x-4">
-                  {[
-                    { icon: Facebook, href: '#', name: 'Facebook' },
-                    { icon: Twitter, href: '#', name: 'Twitter' },
-                    { icon: Linkedin, href: '#', name: 'LinkedIn' },
-                    { icon: Instagram, href: '#', name: 'Instagram' },
-                  ].map(({ icon: Icon, href, name }) => (
-                    <a
-                      key={name}
-                      href={href}
-                      className="w-10 h-10 bg-emerald/10 rounded-lg flex items-center justify-center hover:bg-emerald hover:text-white transition-colors"
-                    >
-                      <Icon size={20} />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Offices */}
-      <section className="section-padding bg-gray-50">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              Nuestras Oficinas
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 max-w-2xl mx-auto">
-              Presencia regional para estar más cerca de nuestros socios comerciales
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {offices.map((office, index) => (
-              <motion.div
-                key={office.city}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 shadow-lg card-hover text-center"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-emerald to-midnight-green rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <MapPin className="text-white" size={32} />
-                </div>
-                <h3 className="text-xl font-outfit-bold text-midnight-green mb-2">
-                  {office.city}
-                </h3>
-                <p className="text-emerald font-outfit-semibold mb-4">
-                  {office.country}
-                </p>
-                <div className="space-y-2 text-sm text-gray-700 font-outfit-regular">
-                  <p>{office.address}</p>
-                  <p>{office.phone}</p>
-                  <p>{office.email}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="section-padding bg-emerald/5">
-        <div className="container-custom text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-outfit-bold text-midnight-green mb-6">
-              ¿Prefieres hablar directamente?
-            </h2>
-            <p className="text-lg font-outfit-regular text-gray-700 mb-8 max-w-2xl mx-auto">
-              Nuestro equipo de especialistas está disponible para una consulta personalizada 
-              sobre tus necesidades de exportación.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:+541112345678"
-                className="btn-primary inline-flex items-center gap-2"
-              >
-                <Phone size={20} />
-                Llamar ahora
-              </a>
-              <a
-                href="mailto:info@plataformasur.com"
-                className="btn-secondary inline-flex items-center gap-2"
-              >
-                <Mail size={20} />
-                Enviar email
-              </a>
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+      <WhatsAppButton />
     </div>
-  )
+  );
 }

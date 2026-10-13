@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <circle cx="60" cy="60" r="56" fill="#04BA70" stroke="#04444D" stroke-width="3"/>
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF"/>
+  {/* Hojas orgánicas circulares */}
+  <path d="M45 42 C45 32 55 30 65 30 C65 40 55 42 45 42 Z" fill="#04BA70"/>
+  <path d="M75 42 C75 32 65 30 55 30 C55 40 65 42 75 42 Z" fill="#2DD48D"/>
+  <circle cx="60" cy="48" r="4" fill="#04444D"/>
+  <text x="60" y="74" font-family="'Outfit', sans-serif" font-weight="900" font-size="13" fill="#04444D" text-anchor="middle" letter-spacing="1">ORGÁNICO</text>
+  <text x="60" y="86" font-family="'Outfit', sans-serif" font-weight="700" font-size="7" fill="#04BA70" text-anchor="middle" letter-spacing="0.5">CERTIFICADO LATAM</text>
+  <text x="60" y="96" font-family="'Outfit', sans-serif" font-weight="600" font-size="6" fill="#3D6E75" text-anchor="middle">LIBRE DE QUÍMICOS</text>
+</svg>

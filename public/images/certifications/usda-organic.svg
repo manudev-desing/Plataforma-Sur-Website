@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <circle cx="60" cy="60" r="56" fill="#04444D" stroke="#04BA70" stroke-width="3"/>
+  <circle cx="60" cy="60" r="48" fill="#FFFFFF"/>
+  <circle cx="60" cy="44" r="16" fill="#04BA70"/>
+  {/* Hoja orgánica */}
+  <path d="M60 32 C68 32 72 40 72 48 C64 48 60 44 60 32 Z" fill="#FFFFFF"/>
+  <path d="M60 32 C52 32 48 40 48 48 C56 48 60 44 60 32 Z" fill="#2DD48D"/>
+  <text x="60" y="74" font-family="'Outfit', sans-serif" font-weight="900" font-size="14" fill="#04444D" text-anchor="middle" letter-spacing="1">USDA</text>
+  <text x="60" y="86" font-family="'Outfit', sans-serif" font-weight="700" font-size="8" fill="#04BA70" text-anchor="middle" letter-spacing="0.5">ORGANIC</text>
+  <text x="60" y="96" font-family="'Outfit', sans-serif" font-weight="600" font-size="6" fill="#3D6E75" text-anchor="middle">NOP CERTIFIED</text>
+</svg>

@@ -12,11 +12,29 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    color: #04444D;
+    background-color: #FFFFFF;
   }
 
   ::selection {
     background-color: #04BA70;
     color: white;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F0F7F7;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D3E4E6;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #04BA70;
   }
 }
 
@@ -26,7 +44,7 @@
   }
 
   .section-padding {
-    @apply py-24 md:py-32;
+    @apply py-20 md:py-28;
   }
 
   .font-outfit-regular { font-weight: 400; }
@@ -35,14 +53,15 @@
   .font-outfit-bold { font-weight: 700; }
 
   .btn-primary {
-    @apply inline-flex items-center bg-emerald text-white font-outfit-semibold
-           px-7 py-3.5 transition-colors duration-200 hover:bg-emerald/85
+    @apply inline-flex items-center justify-center bg-emerald text-white font-semibold
+           rounded-lg px-6 py-3.5 transition-all duration-200 hover:bg-emerald-light
+           shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0
            focus-visible:ring-2 focus-visible:ring-emerald/40 focus-visible:outline-none;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center border border-midnight-green text-midnight-green
-           font-outfit-semibold px-7 py-3.5 transition-colors duration-200
+    @apply inline-flex items-center justify-center border border-midnight-green text-midnight-green
+           font-semibold rounded-lg px-6 py-3.5 transition-all duration-200
            hover:bg-midnight-green hover:text-white
            focus-visible:ring-2 focus-visible:ring-midnight-green/40 focus-visible:outline-none;
   }
@@ -52,7 +71,7 @@
   }
 
   .bg-gradient-subtle {
-    background: linear-gradient(180deg, #FFFFFF, #F2F8F8);
+    background: linear-gradient(180deg, #FFFFFF, #F0F7F7);
   }
 
   .bg-gradient-brand {
@@ -60,15 +79,25 @@
   }
 
   .shadow-card {
-    box-shadow: 0 4px 16px -4px rgba(4, 68, 77, 0.08);
+    box-shadow: 0 4px 16px -4px rgba(4, 68, 77, 0.06);
   }
 
   .shadow-card-hover {
-    box-shadow: 0 14px 36px -10px rgba(4, 68, 77, 0.22);
+    box-shadow: 0 16px 36px -8px rgba(4, 68, 77, 0.14);
   }
 
   .shadow-elegant {
-    box-shadow: 0 22px 56px -14px rgba(4, 68, 77, 0.3);
+    box-shadow: 0 20px 48px -10px rgba(4, 68, 77, 0.25);
+  }
+}
+
+/* Reduced motion compliance per Brandbook §9.3 */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
