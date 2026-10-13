@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "vercel": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-vercel"
+      ],
+      "env": {
+        "VERCEL_API_TOKEN": "${VERCEL_API_TOKEN}"
+      }
+    },
+    "firebase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "firebase-mcp"
+      ],
+      "env": {
+        "FIREBASE_PROJECT_ID": "${FIREBASE_PROJECT_ID}",
+        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}"
+      }
+    }
+  }
+}
