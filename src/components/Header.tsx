@@ -16,9 +16,8 @@ export const Header: React.FC = () => {
     { href: "/#inicio", label: t("nav_home") || "Inicio" },
     { href: "/#origenes", label: t("nav_origins") || "Orígenes" },
     { href: "/#productos", label: t("nav_products") || "Catálogo" },
-    { href: "/servicios", label: "Servicios" },
+    { href: "/#nosotros", label: t("nav_about") || "Nosotros" },
     { href: "/historia", label: "Historia" },
-    { href: "/valores", label: "Valores" },
     { href: "/#contacto", label: t("nav_contact") || "Contacto" },
   ];
 

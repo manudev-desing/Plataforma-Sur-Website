@@ -108,23 +108,28 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link href="/#origenes" className="text-muted-foreground hover:text-emerald transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-emerald" /> Orígenes de Producción
+                </Link>
+              </li>
+              <li>
                 <Link href="/#productos" className="text-muted-foreground hover:text-emerald transition-colors flex items-center gap-1.5">
                   <ArrowRight className="w-3 h-3 text-emerald" /> Catálogo de Productos
                 </Link>
               </li>
               <li>
-                <Link href="/servicios" className="text-muted-foreground hover:text-emerald transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-emerald" /> Servicios de Exportación
+                <Link href="/#certificaciones" className="text-muted-foreground hover:text-emerald transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-emerald" /> Certificaciones Oficiales
+                </Link>
+              </li>
+              <li>
+                <Link href="/#nosotros" className="text-muted-foreground hover:text-emerald transition-colors flex items-center gap-1.5">
+                  <ArrowRight className="w-3 h-3 text-emerald" /> Por Qué Elegirnos
                 </Link>
               </li>
               <li>
                 <Link href="/historia" className="text-muted-foreground hover:text-emerald transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-emerald" /> Historia & Propósito
-                </Link>
-              </li>
-              <li>
-                <Link href="/valores" className="text-muted-foreground hover:text-emerald transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-emerald" /> Valores & Territorio
+                  <ArrowRight className="w-3 h-3 text-emerald" /> Nuestra Historia
                 </Link>
               </li>
             </ul>
